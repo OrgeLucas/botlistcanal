@@ -34,8 +34,10 @@ msg_mostrar = 99999999
 texto = ""
 lineas_enviar_mensajes = []
 #lineas_enviar_mensajes = 0
-
-TOKEN1 = os.environ["TOKEN"]
+TOKEN1 =''
+mi_chat_id = ''
+mi_chad_id_canal = ''
+TOKEN1 = os.environ['TOKEN']
 #TOKEN1 = os.getenv("TOKEN")
 path1 = os.path.abspath(os.getcwd()) + '/'
 #mi_chat_id = 1188860009
@@ -43,9 +45,9 @@ path1 = os.path.abspath(os.getcwd()) + '/'
 #bot = telebot.TeleBot('5376172259:AAHCy9TODVEBN7CqyqacbduSrdiwdnEky8s')
 bot = telebot.TeleBot(TOKEN1)
 #mi_chat_id = os.getenv("mi_chat_id")
-mi_chat_id = os.environ["mi_chat_id"]
+mi_chat_id = os.environ['mi_chat_id']
 #mi_chad_id_canal =  os.getenv("mi_chad_id_canal")
-mi_chad_id_canal =  os.environ["mi_chad_id_canal"]
+mi_chad_id_canal =  os.environ['mi_chad_id_canal']
 cx = 0
 @bot.message_handler(content_types=["text"])
 
