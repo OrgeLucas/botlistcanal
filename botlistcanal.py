@@ -55,6 +55,28 @@ def cmd_texto1(message):
 #        clave0 = str(time.strftime('%d-%m-%Y', time.localtime())) + " " + horaa
 #        print(clave0)
 #        clave1 = "05-06-2022 11" 
+    if message.text == '/bajartxt':
+    	try:
+    		
+	    	files1 = ['mensaje', 'configuraciones','schedule', 'schedule_temp', 'schedule_schedule', 'PersonaGrupoCanal']
+	    	for file1 in files1:
+	    		#print(path1 + file1 + '.txt')
+	    		file11 = open(path1 + file1 + '.txt', 'rb')
+	    		#print(file11)
+	    		bot.send_document(mi_chat_id, file11)
+	    		file11.close
+    	except: # Exception as ex:
+    			print('error')
+    			#print('error:' + str(ex))
+    	#bot.send_document(mi_chat_id, path1 + 'mensaje.txt')
+    	#bot.send_document(mi_chat_id, path1 + 'configuraciones.txt')
+    	#bot.send_document(mi_chat_id, path1 + 'schedule.txt')
+    	#bot.send_document(mi_chat_id, path1 + 'schedule_temp.txt')
+    	#bot.send_document(mi_chat_id, path1 + 'Pruebas.txt')
+    	#bot.send_document(mi_chat_id, path1 + 'schedule_schedule.txt')
+    	#bot.send_document(mi_chat_id, path1 + 'estado.txt')
+    	#bot.send_document(mi_chat_id, path1 + 'PersonaGrupoCanal.txt')
+    
     if message.text == '/mostrarcanal':
     	 #PersonaGrupoCanal.txt
     	 vgvg = mostrarcanal(message)
@@ -397,7 +419,8 @@ def report():
                 i = 0
                 for i in range(len(msg_send)):
                     for canalx in range(len(canal_send)):
-                    	bot.copy_message(canal_send[canalx], mi_chat_id, int(msg_send[i])) 
+                    	bot.copy_message(canal_send[canalx], mi_chat_id, int(msg_send[i]))
+                    	bot.forward_message(canal_send[canalx], mi_chat_id, int(msg_send[i])) 
                     	bot.send_message(mi_chat_id, "Mensage #: " + str(int(msg_send[i])) + " enviado al canal:" + str(canal_send[canalx]))
             fc.close
     f4.close
@@ -936,7 +959,7 @@ def activar_schedule():
     schedule.every().day.at("04:00").do(report)
     schedule.every().day.at("05:00").do(report)
     schedule.every().day.at("06:00").do(report)
-    schedule.every().day.at("07:34").do(report)
+    schedule.every().day.at("07:00").do(report)
     schedule.every().day.at("08:00").do(report)
     schedule.every().day.at("09:00").do(report)
     schedule.every().day.at("10:00").do(report)
@@ -952,7 +975,7 @@ def activar_schedule():
     schedule.every().day.at("20:00").do(report)
     schedule.every().day.at("21:00").do(report)
     schedule.every().day.at("22:00").do(report)
-    schedule.every().day.at("23:28").do(report)
+    schedule.every().day.at("23:00").do(report)
     while True:
         schedule.run_pending()
         #print("	 Schedule runing...")
