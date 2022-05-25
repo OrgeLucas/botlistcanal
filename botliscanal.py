@@ -35,14 +35,11 @@ cx = 0
 TOKEN1 =''
 mi_chat_id = ''
 mi_chad_id_canal = ''
-# TOKEN1 = os.environ['TOKEN']
-# mi_chat_id = os.environ['mi_chat_id']
-# mi_chad_id_canal =  os.environ['mi_chad_id_canal']
+TOKEN1 = os.environ['TOKEN']
+mi_chat_id = os.environ['mi_chat_id']
+mi_chad_id_canal =  os.environ['mi_chad_id_canal']
 
-mi_chat_id = 1188860009
-mi_chad_id_canal = -1001759781255
-#bot = telebot.TeleBot('')
-TOKEN1 = '2011870885:AAEKWSIAq5MSj7tIzApZwsQADHRaBwcjGMM'
+
 path1 = os.path.abspath(os.getcwd()) + '/'
 bot = telebot.TeleBot(TOKEN1)
 #este es otro canal
