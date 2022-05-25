@@ -1173,8 +1173,8 @@ print('   Sub Final')
 def activar_schedule():
     print("     SCHEDULE INICIADO...")
     #schedule.every().day.at(HORA_UNICA).do(report)
-    schedule.every().day.at("14:11").do(report)#server +4
-    schedule.every().day.at("10:02").do(report)#local +4
+    schedule.every().day.at("14:07").do(report)#server +4
+    schedule.every().day.at("10:07").do(report)#local +4
     schedule.every().day.at("00:00").do(report)
     schedule.every().day.at("01:00").do(report)
     schedule.every().day.at("02:00").do(report)
