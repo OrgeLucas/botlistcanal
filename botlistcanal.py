@@ -481,7 +481,7 @@ def report1(HORA_UNICA):
                         bot.forward_message(canal_send[canalx], mi_chat_id, int(msg_send[i]))
                         bot.send_message(mi_chat_id, "Mensage #: " + str(int(msg_send[i])) + " enviado al canal:" + str(canal_send[canalx]))
                         #print("  SLEEP_VAR.isdigit: " + str(SLEEP_VAR.isdigit))
-                        sleep = 1 #int(SLEEP_VAR)
+                        time.sleep (1)#int(SLEEP_VAR)
                         #if SLEEP_VAR.isdigit:
                             #sleep = int(SLEEP_VAR)
                             #print("  sleep: " + str(sleep))
