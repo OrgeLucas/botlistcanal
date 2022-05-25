@@ -381,6 +381,7 @@ def report1(HORA_UNICA):
     #print("  len(LineasDeF4): " + str(len(LineasDeF4)))
     sss = "no"
     #lineas_enviar_mensajes[1] = "0"
+    Lista_de_numeros_lineas_encontradas = []
     for linea in range(Fin):
         listasXX = ""
         #f4.seek(0)
@@ -392,6 +393,8 @@ def report1(HORA_UNICA):
                 #print(SLEEP_VAR)
                 #lineas_enviar_mensajes.insert[cx,lineas_enviar_mensajesData[linea-1]]#= lineas_enviar_mensajesData[linea-1]#str(linea-1)    #.append(str(linea-1))
                 lineas_enviar_mensajes[cx] = str(linea-1)
+                Lista_de_numeros_lineas_encontradas.append(linea-1)
+                #print(str(Lista_de_numeros_lineas_encontradas[:]))
                 if linea == Fin:
                     pass
                 else:    
@@ -400,10 +403,12 @@ def report1(HORA_UNICA):
             else:
                 sss = "no"
         if HORA_UNICA == "99:99":
-            print("  HORA_UNICA okggg" + str(HORA_UNICA))
+            #print("  HORA_UNICA okggg" + str(HORA_UNICA))
             cx = 0
             #lineas_enviar_mensajes.insert(0, lineas_enviar_mensajesData[1])# "1") #[cx] = "1" # str(linea-1)
             lineas_enviar_mensajes[cx] = str(1)
+            Lista_de_numeros_lineas_encontradas.append(1)
+            #print(str(Lista_de_numeros_lineas_encontradas[:]))
             # if linea < 0:
                 # if clave1 in listasXX:
                     # #print("index: " + str(c) +", linea: "+str(linea))
@@ -447,22 +452,27 @@ def report1(HORA_UNICA):
     with open(path1 + "schedule.txt", 'r', encoding="utf8") as f4:
         lineas_leidas = f4.readlines()
         for iii in range(cx+1):
-            if iii != cx+1:
+            if iii < cx+1:
                 #print("   leer msg temp: " + str(len(lineas_enviar_mensajes)))
                 #f4.seek(0)
-                LineaEspecifica = int(lineas_enviar_mensajes[iii])
+                LineaEspecifica = 1 #int(lineas_enviar_mensajes[iii])
                 f4.seek(0)
                 #lineas_leidas[LineaEspecifica] = f4.read()
-                linea_mensajes = lineas_leidas[LineaEspecifica]
+                #linea_mensajes = lineas_leidas[LineaEspecifica]
+                try:
+                    linea_mensajes = Lista_de_numeros_lineas_encontradas[iii]
+                except:
+                    cdcd = 1
+                    print("  iii:" + str(iii) + "  cx:" + str(cx))
                 #print("   int(lineas_enviar_mensajes[iii]):" + str(int(lineas_enviar_mensajes[iii])))
                 #print("   lineas_leidas[LineaEspecifica] :" + str(lineas_leidas[LineaEspecifica]))
                 #print("  LineaEspecifica " + str(LineaEspecifica))
                 #linea_mensajes = f4.readline(int(lineas_enviar_mensajes[iii]))
-                print("  HORA_UNICA okttt" + str(HORA_UNICA))
+                #print("  HORA_UNICA okttt" + str(HORA_UNICA))
                 with open(path1 + "PersonaGrupoCanal.txt", 'r', encoding="utf8") as fcanal:
                     canal_send = fcanal.readlines()
                     fcanal.close
-                list_mensajes = eval(linea_mensajes)
+                list_mensajes = eval(lineas_leidas[linea_mensajes])
                 listasR = ""
                 for ii in list_mensajes:
                     listasR+= str(ii)
@@ -1067,7 +1077,7 @@ def crear_y_guardar_schedule_temp(message):
             Cada_x_Hora = 0
         DiasT = (FechaFin - FechaInicio).days + 1
         Continue = "no"
-        with open(path1 + 'schedule_temp.txt','a') as f:
+        with open(path1 + 'schedule_temp.txt','w') as f:
             try:
                 DD = 0
                 for DD in range(DiasT):
@@ -1175,8 +1185,8 @@ print('   Sub Final')
 def activar_schedule():
     print("     SCHEDULE INICIADO...")
     #schedule.every().day.at(HORA_UNICA).do(report)
-    schedule.every().day.at("14:26").do(report)#server +4
-    schedule.every().day.at("10:26").do(report)#local +4
+    schedule.every().day.at("15:26").do(report)#server +4
+    schedule.every().day.at("11:46").do(report)#local +4
     schedule.every().day.at("00:00").do(report)
     schedule.every().day.at("01:00").do(report)
     schedule.every().day.at("02:00").do(report)
