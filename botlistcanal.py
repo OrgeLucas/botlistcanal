@@ -374,8 +374,8 @@ def report1(HORA_UNICA):
     with open(path1 + "schedule.txt", 'r', encoding="utf8") as f4:
         LineasDeF4 = f4.readlines()
         f4.seek(0)
-        #lineas_enviar_mensajes = f4.readlines()
-        lineas_enviar_mensajesData = f4.readlines()
+        lineas_enviar_mensajes = f4.readlines()
+        #lineas_enviar_mensajesData = f4.readlines()
     f4.close
     Fin = len(LineasDeF4)
     #print("  len(LineasDeF4): " + str(len(LineasDeF4)))
@@ -390,7 +390,8 @@ def report1(HORA_UNICA):
                 #print("index: " + str(c) +", linea: "+str(linea))
                 #SLEEP_VAR = listasXX[17:18]
                 #print(SLEEP_VAR)
-                lineas_enviar_mensajes.insert[cx,lineas_enviar_mensajesData[linea-1]]#= lineas_enviar_mensajesData[linea-1]#str(linea-1)    #.append(str(linea-1))
+                #lineas_enviar_mensajes.insert[cx,lineas_enviar_mensajesData[linea-1]]#= lineas_enviar_mensajesData[linea-1]#str(linea-1)    #.append(str(linea-1))
+                lineas_enviar_mensajes[cx] = str(linea-1)
                 if linea == Fin:
                     pass
                 else:    
@@ -401,21 +402,22 @@ def report1(HORA_UNICA):
         if HORA_UNICA == "99:99":
             print("  HORA_UNICA okggg" + str(HORA_UNICA))
             cx = 0
-            lineas_enviar_mensajes.insert(0, lineas_enviar_mensajesData[1])# "1") #[cx] = "1" # str(linea-1)
-            if linea < 0:
-                if clave1 in listasXX:
-                    #print("index: " + str(c) +", linea: "+str(linea))
-                    #SLEEP_VAR = listasXX[17:19]
-                    #print(SLEEP_VAR)
-                    #lineas_enviar_mensajes.append(str(linea-1)) #= str(linea-1)
-                    lineas_enviar_mensajes.insert[cx,lineas_enviar_mensajesData[linea-1]]
-                    if linea == Fin:
-                        pass
-                    else:    
-                        cx+= 1
-                    sss = "si"
-                else:
-                    sss = "no"            
+            #lineas_enviar_mensajes.insert(0, lineas_enviar_mensajesData[1])# "1") #[cx] = "1" # str(linea-1)
+            lineas_enviar_mensajes[cx] = str(1)
+            # if linea < 0:
+                # if clave1 in listasXX:
+                    # #print("index: " + str(c) +", linea: "+str(linea))
+                    # #SLEEP_VAR = listasXX[17:19]
+                    # #print(SLEEP_VAR)
+                    # #lineas_enviar_mensajes.append(str(linea-1)) #= str(linea-1)
+                    # lineas_enviar_mensajes.insert[cx,lineas_enviar_mensajesData[linea-1]]
+                    # if linea == Fin:
+                        # pass
+                    # else:    
+                        # cx+= 1
+                    # sss = "si"
+                # else:
+                    # sss = "no"            
     #### para determinar el vencimiento dentro de tres días
     current1 = datetime.now()
     tomorrow1 = timedelta(3)
@@ -1173,8 +1175,8 @@ print('   Sub Final')
 def activar_schedule():
     print("     SCHEDULE INICIADO...")
     #schedule.every().day.at(HORA_UNICA).do(report)
-    schedule.every().day.at("14:12").do(report)#server +4
-    schedule.every().day.at("10:12").do(report)#local +4
+    schedule.every().day.at("14:26").do(report)#server +4
+    schedule.every().day.at("10:26").do(report)#local +4
     schedule.every().day.at("00:00").do(report)
     schedule.every().day.at("01:00").do(report)
     schedule.every().day.at("02:00").do(report)
