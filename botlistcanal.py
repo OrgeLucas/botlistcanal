@@ -449,6 +449,7 @@ def report1(HORA_UNICA):
     lineaX = 0
     i = 0
     iii = 0
+    cdcd = 0
     with open(path1 + "schedule.txt", 'r', encoding="utf8") as f4:
         lineas_leidas = f4.readlines()
         for iii in range(cx+1):
@@ -469,7 +470,7 @@ def report1(HORA_UNICA):
                 #print("  LineaEspecifica " + str(LineaEspecifica))
                 #linea_mensajes = f4.readline(int(lineas_enviar_mensajes[iii]))
                 #print("  HORA_UNICA okttt" + str(HORA_UNICA))
-                if cdcd = 0:
+                if cdcd == 0:
                     with open(path1 + "PersonaGrupoCanal.txt", 'r', encoding="utf8") as fcanal:
                         canal_send = fcanal.readlines()
                         fcanal.close
@@ -1188,8 +1189,8 @@ print('   Sub Final')
 def activar_schedule():
     print("     SCHEDULE INICIADO...")
     #schedule.every().day.at(HORA_UNICA).do(report)
-    schedule.every().day.at("15:51").do(report)#server +4
-    schedule.every().day.at("11:49").do(report)#local +4
+    schedule.every().day.at("22:20").do(report)#server +4
+    schedule.every().day.at("18:20").do(report)#local +4
     schedule.every().day.at("00:00").do(report)
     schedule.every().day.at("01:00").do(report)
     schedule.every().day.at("02:00").do(report)
