@@ -380,7 +380,7 @@ def report1(HORA_UNICA):
     Fin = len(LineasDeF4)
     #print("  len(LineasDeF4): " + str(len(LineasDeF4)))
     sss = "no"
-    lineas_enviar_mensajes[0] = "0"
+    lineas_enviar_mensajes.append("1")#[0] = "0"
     for linea in range(Fin):
         listasXX = ""
         #f4.seek(0)
@@ -401,7 +401,7 @@ def report1(HORA_UNICA):
         if HORA_UNICA == "99:99":
             print("  HORA_UNICA okggg" + str(HORA_UNICA))
             cx = 0
-            lineas_enviar_mensajes[cx] = "1" # str(linea-1)
+            lineas_enviar_mensajes.append("1") #[cx] = "1" # str(linea-1)
             if linea < 0:
                 if clave1 in listasXX:
                     #print("index: " + str(c) +", linea: "+str(linea))
@@ -1172,7 +1172,7 @@ print('   Sub Final')
 def activar_schedule():
     print("     SCHEDULE INICIADO...")
     #schedule.every().day.at(HORA_UNICA).do(report)
-    schedule.every().day.at("13:35").do(report)#server +4
+    schedule.every().day.at("13:41").do(report)#server +4
     schedule.every().day.at("00:00").do(report)
     schedule.every().day.at("01:00").do(report)
     schedule.every().day.at("02:00").do(report)
