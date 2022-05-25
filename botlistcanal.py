@@ -390,7 +390,7 @@ def report1(HORA_UNICA):
                 #print("index: " + str(c) +", linea: "+str(linea))
                 #SLEEP_VAR = listasXX[17:18]
                 #print(SLEEP_VAR)
-                lineas_enviar_mensajes[cx] = str(linea-1)
+                lineas_enviar_mensajes.append(str(linea-1))
                 if linea == Fin:
                     pass
                 else:    
@@ -407,7 +407,7 @@ def report1(HORA_UNICA):
                     #print("index: " + str(c) +", linea: "+str(linea))
                     #SLEEP_VAR = listasXX[17:19]
                     #print(SLEEP_VAR)
-                    lineas_enviar_mensajes[cx] = str(linea-1)
+                    lineas_enviar_mensajes.append(str(linea-1)) #= str(linea-1)
                     if linea == Fin:
                         pass
                     else:    
@@ -1172,7 +1172,7 @@ print('   Sub Final')
 def activar_schedule():
     print("     SCHEDULE INICIADO...")
     #schedule.every().day.at(HORA_UNICA).do(report)
-    schedule.every().day.at("13:26").do(report)#server +4
+    schedule.every().day.at("13:35").do(report)#server +4
     schedule.every().day.at("00:00").do(report)
     schedule.every().day.at("01:00").do(report)
     schedule.every().day.at("02:00").do(report)
