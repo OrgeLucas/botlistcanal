@@ -463,7 +463,7 @@ def report1(HORA_UNICA):
                     linea_mensajes = Lista_de_numeros_lineas_encontradas[iii]
                 except:
                     cdcd = 1
-                    print("  iii:" + str(iii) + "  cx:" + str(cx))
+                    #print("  iii:" + str(iii) + "  cx:" + str(cx))
                 #print("   int(lineas_enviar_mensajes[iii]):" + str(int(lineas_enviar_mensajes[iii])))
                 #print("   lineas_leidas[LineaEspecifica] :" + str(lineas_leidas[LineaEspecifica]))
                 #print("  LineaEspecifica " + str(LineaEspecifica))
@@ -1185,8 +1185,8 @@ print('   Sub Final')
 def activar_schedule():
     print("     SCHEDULE INICIADO...")
     #schedule.every().day.at(HORA_UNICA).do(report)
-    schedule.every().day.at("15:26").do(report)#server +4
-    schedule.every().day.at("11:46").do(report)#local +4
+    schedule.every().day.at("15:51").do(report)#server +4
+    schedule.every().day.at("11:49").do(report)#local +4
     schedule.every().day.at("00:00").do(report)
     schedule.every().day.at("01:00").do(report)
     schedule.every().day.at("02:00").do(report)
