@@ -469,45 +469,48 @@ def report1(HORA_UNICA):
                 #print("  LineaEspecifica " + str(LineaEspecifica))
                 #linea_mensajes = f4.readline(int(lineas_enviar_mensajes[iii]))
                 #print("  HORA_UNICA okttt" + str(HORA_UNICA))
-                with open(path1 + "PersonaGrupoCanal.txt", 'r', encoding="utf8") as fcanal:
-                    canal_send = fcanal.readlines()
-                    fcanal.close
-                list_mensajes = eval(lineas_leidas[linea_mensajes])
-                listasR = ""
-                for ii in list_mensajes:
-                    listasR+= str(ii)
-                with open(path1 + "mensaje_temp.txt", 'w', encoding="utf8") as fa:
-                    fa.write(listasR) 
-                fa.close
-                with open(path1 + "mensaje_temp.txt", 'r', encoding="utf8") as fc:
-                    #print("   leer msg temp: " + "4")
-                    msg_send = fc.readlines()
-                    i = 0
-                    for i in range(len(msg_send)):
-                        for canalx in range(len(canal_send)-1):
-                            #print ("   canal id: " + str(canal_send[canalx]) + ", mi_chat_id: " + str(mi_chat_id) + "id msg: " + str(int(msg_send[i])))
-                            #print("  LineaEspecifica: " + str(LineaEspecifica))
-                            #print("  canalx: " + str(canalx))
-                            #print("  msg_send[i]: " + str(msg_send[i]))
-                            #print("  iii: " + str(iii))
-                            #print("  ii: " + str(ii))
-                            #print("  i: " + str(i))
-                            #print("  cx: " + str(cx))
-                            #print("  len cx: " + str(len(str(cx))))
-                            #print("  len(msg_send): " + str(len(msg_send)))
-                            #print("  msg_send: " + str(msg_send))
-                            #bot.copy_message(canal_send[canalx], mi_chat_id, int(msg_send[i]))
-                            try:
-                                bot.forward_message(canal_send[canalx], mi_chat_id, int(msg_send[i]))
-                                bot.send_message(mi_chat_id, "Mensage #: " + str(int(msg_send[i])) + " enviado al canal:" + str(canal_send[canalx]))
-                            #print("  SLEEP_VAR.isdigit: " + str(SLEEP_VAR.isdigit))
-                            #time.sleep (1)#int(SLEEP_VAR)
-                            #if SLEEP_VAR.isdigit:
-                                #sleep = int(SLEEP_VAR)
-                                #print("  sleep: " + str(sleep))
-                            except:
-                                bot.send_message(mi_chat_id, "ERROR: Mensage #: " + str(int(msg_send[i])) + " NO enviado al canal:" + str(canal_send[canalx]))
+                if cdcd = 0:
+                    with open(path1 + "PersonaGrupoCanal.txt", 'r', encoding="utf8") as fcanal:
+                        canal_send = fcanal.readlines()
+                        fcanal.close
+                    list_mensajes = eval(lineas_leidas[linea_mensajes])
+                    listasR = ""
+                    for ii in list_mensajes:
+                        listasR+= str(ii)
+                    with open(path1 + "mensaje_temp.txt", 'w', encoding="utf8") as fa:
+                        fa.write(listasR) 
+                    fa.close
+                    with open(path1 + "mensaje_temp.txt", 'r', encoding="utf8") as fc:
+                        #print("   leer msg temp: " + "4")
+                        msg_send = fc.readlines()
+                        i = 0
+                        for i in range(len(msg_send)):
+                            for canalx in range(len(canal_send)-1):
+                                #print ("   canal id: " + str(canal_send[canalx]) + ", mi_chat_id: " + str(mi_chat_id) + "id msg: " + str(int(msg_send[i])))
+                                #print("  LineaEspecifica: " + str(LineaEspecifica))
+                                #print("  canalx: " + str(canalx))
+                                #print("  msg_send[i]: " + str(msg_send[i]))
+                                #print("  iii: " + str(iii))
+                                #print("  ii: " + str(ii))
+                                #print("  i: " + str(i))
+                                #print("  cx: " + str(cx))
+                                #print("  len cx: " + str(len(str(cx))))
+                                #print("  len(msg_send): " + str(len(msg_send)))
+                                #print("  msg_send: " + str(msg_send))
+                                #bot.copy_message(canal_send[canalx], mi_chat_id, int(msg_send[i]))
+                                try:
+                                    bot.forward_message(canal_send[canalx], mi_chat_id, int(msg_send[i]))
+                                    bot.send_message(mi_chat_id, "Mensage #: " + str(int(msg_send[i])) + " enviado al canal:" + str(canal_send[canalx]))
+                                #print("  SLEEP_VAR.isdigit: " + str(SLEEP_VAR.isdigit))
+                                #time.sleep (1)#int(SLEEP_VAR)
+                                #if SLEEP_VAR.isdigit:
+                                    #sleep = int(SLEEP_VAR)
+                                    #print("  sleep: " + str(sleep))
+                                except:
+                                    bot.send_message(mi_chat_id, "ERROR: Mensage #: " + str(int(msg_send[i])) + " NO enviado al canal:" + str(canal_send[canalx]))
+                cdcd = 0
     f4.close
+    
     #Vencimiento = ""
     #Vencimiento = vencimiento(clave_vencimiento)    
         
