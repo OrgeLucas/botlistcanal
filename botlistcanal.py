@@ -50,9 +50,13 @@ bot = telebot.TeleBot(TOKEN1)
 @bot.message_handler(content_types=["text"])
 def cmd_texto1(message):
     if message.text == '/sendahora':
+        bot.send_message(mi_chat_id, "/sendahora recibido.")
         sendahora = ""
         HORA_UNICA = "99:99"
         sendahora = report1(HORA_UNICA)
+        vnce1 = ""
+        ####vnce1 = report_fecha_vence()
+        
         ##HORA_UNICA = "00:00"
         #markup = telebot.types.ForceReply()
         #msgP = bot.send_message(mi_chat_id, "Envie la hora y minutos a los que desea se envien las publicaciones, ejemplo: 01:00.", reply_markup=markup )
@@ -225,77 +229,6 @@ def cmd_texto1(message):
             ##Correr_def = cmd_publicar(message) ##pass ##bot.send_message(message.chat.id, "publicaciones")
     else:
         Correr_def = cmd_publicar(message)
-
-# ListaDinamicaConfiguraciones.txt
-        #else:
-            #clave1 = message.text
-        #LineasDeF4 = []
-        #LineasDeF4 = 0
-        
-#def preguntar_hora_unica(message):
-    #HORA_UNICA = message.text
-    #print(HORA_UNICA)
-    #dfedfe = report()
-    #entro hora unica
-    # preguntar si vecesXdias introducida no es un numero
-    # FechaValida = "NO"
-    
-    # try:
-        # fecha = message.text
-        # datetime.strptime(fecha, '%h:%mm-%Y')
-        # FechaValida = "SI" ##print("Fecha v�lida")###while True:
-    # except:
-        # FechaValida = "NO"
-    # if FechaValida == "NO": ## es verdadero si es un n�mero
-        # # informamos del error y volvemos a preguntar
-        # ##      PEDIR "FECHA_INICIO" ESTADO = "CONFIGURACIONES HORA_INICIO"   ###############
-        # markup = telebot.types.ForceReply()
-        # msgP = bot.send_message(message.chat.id, "¿ERROR debe ser una fecha válida: \n¿Cual es la fecha (dia-mes-año 31-12-2022) en que iniciar las repeticiones?\nPara cancela Conf. actual envie /cancelconfig ", reply_markup=markup)
-        # # volver a ejecutar la función
-        # bot.register_next_step_handler(msgP, preguntar_fecha_fin)
-    # else: #  si se introdujo la fecha valida 
-        # configuraciones[message.chat.id]["FechaInicio"] = message.text
-        # ##nombreCliente = message.text
-        # ##      PEDIR "FECHA_FIN" ESTADO = "CONFIGURACIONES FECHA_INICIO"   ###############
-        # mmm = mostrar_datos(message)
-        # markup = telebot.types.ForceReply()
-        # msgP = bot.send_message(message.chat.id, "¿Cual es la fecha en que terminan las repeticiones?\nPara cancela Conf. actual envie /cancelconfig ", reply_markup=markup)
-        # bot.register_next_step_handler(msgP, Validar_datos_de_publicaciones)
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    # if not message.text.isdigit(): ## es verdadero si es un numero
-		# # informamos del error y volvemos a preguntar
-        # markup = telebot.types.ForceReply()
-        # msgP = bot.send_message(message.chat.id, "ERROR: Debes indicar hora y minutos en el siguiente formato 00:00. \n¿Que intervalo de tiempo desea entre publicacioes consecutivas?\nPara cancela Conf. actual envie /cancelconfig ")
-        # bot.register_next_step_handler(msgP, preguntar_hora_inicio) #si no es un número preguntar vecesXdias
-    # else: #  si se introdujo el numero correcto tomo veces_x_dia
-        # configuraciones[message.chat.id]["VecesXdia"] = int(message.text)
-        # ##      PEDIR "HORA_INICIO" ESTADO = "CONFIGURACIONES VECES_X_DIA"   ######################################################################
-        # mmm = mostrar_datos(message)
-        # markup = telebot.types.ForceReply()
-        # msgP = bot.send_message(message.chat.id, "¿Cual es la hora a la que desea se inicien las repeticiones?\nPara cancela Conf. actual envie /cancelconfig ", reply_markup=markup)
-        # bot.register_next_step_handler(msgP, preguntar_fecha_inicio) # al  ser un numero pregunto 
-
-    
-    
-    
-    
-    
     
 def mostrarcanal(message):
 	        with open(path1 + "PersonaGrupoCanal.txt", 'r', encoding="utf8") as f4:
@@ -341,15 +274,14 @@ def preguntar_persona_Grupo_Canal_agregar(message):
 
 def report():
     wwwww = ""
-    HORA_UNICA == "00:00"
+    HORA_UNICA = "00:00"
     wwwww = report1(HORA_UNICA)
     
 def report1(HORA_UNICA):    
-        #w = datetime.now()
+    #w = datetime.now()
     #if message.text == "1":
     now = datetime.now()
     today = date.today()
-    
     #print("  hora unica ok" + HORA_UNICA)
     #print(time.strftime('%d-%m-%Y', datetime.now()))
     horaC = int(now.hour)
@@ -371,59 +303,69 @@ def report1(HORA_UNICA):
     
     linea = 0
     cx = 0
-    with open(path1 + "schedule.txt", 'r', encoding="utf8") as f4:
-        LineasDeF4 = f4.readlines()
-        f4.seek(0)
-        lineas_enviar_mensajes = f4.readlines()
-        #lineas_enviar_mensajesData = f4.readlines()
-    f4.close
-    Fin = len(LineasDeF4)
-    #print("  len(LineasDeF4): " + str(len(LineasDeF4)))
-    sss = "no"
-    #lineas_enviar_mensajes[1] = "0"
-    Lista_de_numeros_lineas_encontradas = []
-    for linea in range(Fin):
-        listasXX = ""
-        #f4.seek(0)
-        listasXX =  LineasDeF4[linea] #f4.readlines(linea)
-        if HORA_UNICA == "00:00":
-            if clave1 in listasXX:
-                #print("index: " + str(c) +", linea: "+str(linea))
-                #SLEEP_VAR = listasXX[17:18]
-                #print(SLEEP_VAR)
-                #lineas_enviar_mensajes.insert[cx,lineas_enviar_mensajesData[linea-1]]#= lineas_enviar_mensajesData[linea-1]#str(linea-1)    #.append(str(linea-1))
-                lineas_enviar_mensajes[cx] = str(linea-1)
-                Lista_de_numeros_lineas_encontradas.append(linea-1)
-                #print(str(Lista_de_numeros_lineas_encontradas[:]))
-                if linea == Fin:
-                    pass
-                else:    
-                    cx+= 1
-                sss = "si"
-            else:
-                sss = "no"
-        if HORA_UNICA == "99:99":
-            #print("  HORA_UNICA okggg" + str(HORA_UNICA))
-            cx = 0
-            #lineas_enviar_mensajes.insert(0, lineas_enviar_mensajesData[1])# "1") #[cx] = "1" # str(linea-1)
-            lineas_enviar_mensajes[cx] = str(1)
-            Lista_de_numeros_lineas_encontradas.append(1)
-            #print(str(Lista_de_numeros_lineas_encontradas[:]))
-            # if linea < 0:
-                # if clave1 in listasXX:
-                    # #print("index: " + str(c) +", linea: "+str(linea))
-                    # #SLEEP_VAR = listasXX[17:19]
-                    # #print(SLEEP_VAR)
-                    # #lineas_enviar_mensajes.append(str(linea-1)) #= str(linea-1)
-                    # lineas_enviar_mensajes.insert[cx,lineas_enviar_mensajesData[linea-1]]
-                    # if linea == Fin:
-                        # pass
-                    # else:    
-                        # cx+= 1
-                    # sss = "si"
-                # else:
-                    # sss = "no"            
-    #### para determinar el vencimiento dentro de tres días
+    
+    Recorerlist_mensajes = []
+    Lista_mensaje = []
+    if HORA_UNICA == "00:00":
+        with open(path1 + "schedule.txt", 'r', encoding="utf8") as fsched:
+            with open(path1 + "PersonaGrupoCanal.txt", 'r', encoding="utf8") as fcanal:
+                canal_send = fcanal.readlines()
+                fcanal.seek(0)
+                ipgc = 0
+                for ipgc in range(len(canal_send)):
+                    Id_Canal_Send = canal_send[ipgc]
+                    LineasDefsched = fsched.readlines()
+                    fsched.seek(0)
+                    ik = 0
+                    for ik in range(len(LineasDefsched)):
+                        if clave1 in LineasDefsched[ik]:
+                            Lista_mensaje = LineasDefsched[ik-1]
+                            Recorerlist_mensajes = eval(Lista_mensaje)
+                            iimsg = 0
+                            for iimsg in Recorerlist_mensajes:
+                                #print(" " + iimsg)
+                                idCanal = int(Id_Canal_Send)
+                                Idmsg = int(iimsg)
+                                #print("   " + str(int(Id_Canal_Send)) + "  " + str(mi_chat_id) + " " + str(int(iimsg)))
+                                try:
+                                    msgP = bot.send_message(mi_chat_id, "  Mensajes: " + str(iimsg) + " Canal: " + str(Id_Canal_Send))
+                                    #bot.forward_message(idCanal, mi_chat_id, Idmsg)
+                                    bot.send_message(mi_chat_id, "Mensage #: " + str(iimsg) + " enviado al canal:" + str(Id_Canal_Send))
+                                except:
+                                    bot.send_message(mi_chat_id, "ERROR: Mensage #: " + str(iimsg) + " NO enviado al canal:" + str(Id_Canal_Send))
+            fcanal.close
+        fsched.close
+    if HORA_UNICA == "99:99":
+        with open(path1 + "schedule.txt", 'r', encoding="utf8") as fsched:
+            with open(path1 + "PersonaGrupoCanal.txt", 'r', encoding="utf8") as fcanal:
+                canal_send = fcanal.readlines()
+                fcanal.seek(0)
+                ipgc = 0
+                for ipgc in range(len(canal_send)):
+                    Id_Canal_Send = canal_send[ipgc]
+                    LineasDefsched = fsched.readlines()
+                    fsched.seek(0)
+                    ik = 0
+                    #for ik in range(len(LineasDefsched)):
+                    #if clave1 in LineasDefsched[ik]:
+                    Lista_mensaje = LineasDefsched[1]
+                    Recorerlist_mensajes = eval(Lista_mensaje)
+                    iimsg = 0
+                    for iimsg in Recorerlist_mensajes:
+                        #print(" " + iimsg)
+                        idCanal = int(Id_Canal_Send)
+                        Idmsg = int(iimsg)
+                        #print("   " + str(int(Id_Canal_Send)) + "  " + str(mi_chat_id) + " " + str(int(iimsg)))
+                        try:
+                            msgP = bot.send_message(mi_chat_id, "  Mensajes: " + str(iimsg) + " Canal: " + str(Id_Canal_Send))
+                            #bot.forward_message(idCanal, mi_chat_id, Idmsg)
+                            bot.send_message(mi_chat_id, "Mensage #: " + str(iimsg) + " enviado al canal:" + str(Id_Canal_Send))
+                        except:
+                            bot.send_message(mi_chat_id, "ERROR: Mensage #: " + str(iimsg) + " NO enviado al canal:" + str(Id_Canal_Send))
+            fcanal.close
+        fsched.close
+        
+def report_fecha_vence():  
     current1 = datetime.now()
     tomorrow1 = timedelta(3)
     vence1 = current1 + tomorrow1
@@ -436,256 +378,44 @@ def report1(HORA_UNICA):
         MES_v = str(vence1.month)
     else:
         MES_v = "0" + str(vence1.month)
-    clave_vencimiento = str(DIA_v) + "-" + str(MES_v) + "-" + str(vence1.year) #+ " " + str(horaa)
-    #print("  " + clave_vencimiento)
-    #print("  " + "clave_vencimiento")
-    ######### fin de vencimiento
-    ### recorrer la lista de mensajes y enviarlos.
-    linea_mensajes = []
-    #linea_mensajes = 0
-    list_mensajes = []
-    #list_mensajes = 0
-    #lineaX = []
-    lineaX = 0
-    i = 0
-    iii = 0
-    cdcd = 0
-    with open(path1 + "schedule.txt", 'r', encoding="utf8") as f4:
-        lineas_leidas = f4.readlines()
-        for iii in range(cx+1):
-            if iii < cx+1:
-                #print("   leer msg temp: " + str(len(lineas_enviar_mensajes)))
-                #f4.seek(0)
-                LineaEspecifica = 1 #int(lineas_enviar_mensajes[iii])
-                f4.seek(0)
-                #lineas_leidas[LineaEspecifica] = f4.read()
-                #linea_mensajes = lineas_leidas[LineaEspecifica]
-                try:
-                    linea_mensajes = Lista_de_numeros_lineas_encontradas[iii]
-                except:
-                    cdcd = 1
-                    #print("  iii:" + str(iii) + "  cx:" + str(cx))
-                #print("   int(lineas_enviar_mensajes[iii]):" + str(int(lineas_enviar_mensajes[iii])))
-                #print("   lineas_leidas[LineaEspecifica] :" + str(lineas_leidas[LineaEspecifica]))
-                #print("  LineaEspecifica " + str(LineaEspecifica))
-                #linea_mensajes = f4.readline(int(lineas_enviar_mensajes[iii]))
-                #print("  HORA_UNICA okttt" + str(HORA_UNICA))
-                if cdcd == 0:
-                    with open(path1 + "PersonaGrupoCanal.txt", 'r', encoding="utf8") as fcanal:
-                        canal_send = fcanal.readlines()
-                        fcanal.close
-                    list_mensajes = eval(lineas_leidas[linea_mensajes])
-                    listasR = ""
-                    for ii in list_mensajes:
-                        listasR+= str(ii)
-                    with open(path1 + "mensaje_temp.txt", 'w', encoding="utf8") as fa:
-                        fa.write(listasR) 
-                    fa.close
-                    with open(path1 + "mensaje_temp.txt", 'r', encoding="utf8") as fc:
-                        #print("   leer msg temp: " + "4")
-                        msg_send = fc.readlines()
-                        i = 0
-                        for i in range(len(msg_send)):
-                            for canalx in range(len(canal_send)-1):
-                                #print ("   canal id: " + str(canal_send[canalx]) + ", mi_chat_id: " + str(mi_chat_id) + "id msg: " + str(int(msg_send[i])))
-                                #print("  LineaEspecifica: " + str(LineaEspecifica))
-                                #print("  canalx: " + str(canalx))
-                                #print("  msg_send[i]: " + str(msg_send[i]))
-                                #print("  iii: " + str(iii))
-                                #print("  ii: " + str(ii))
-                                #print("  i: " + str(i))
-                                #print("  cx: " + str(cx))
-                                #print("  len cx: " + str(len(str(cx))))
-                                #print("  len(msg_send): " + str(len(msg_send)))
-                                #print("  msg_send: " + str(msg_send))
-                                #bot.copy_message(canal_send[canalx], mi_chat_id, int(msg_send[i]))
-                                try:
-                                    bot.forward_message(canal_send[canalx], mi_chat_id, int(msg_send[i]))
-                                    bot.send_message(mi_chat_id, "Mensage #: " + str(int(msg_send[i])) + " enviado al canal:" + str(canal_send[canalx]))
-                                #print("  SLEEP_VAR.isdigit: " + str(SLEEP_VAR.isdigit))
-                                #time.sleep (1)#int(SLEEP_VAR)
-                                #if SLEEP_VAR.isdigit:
-                                    #sleep = int(SLEEP_VAR)
-                                    #print("  sleep: " + str(sleep))
-                                except:
-                                    bot.send_message(mi_chat_id, "ERROR: Mensage #: " + str(int(msg_send[i])) + " NO enviado al canal:" + str(canal_send[canalx]))
-                cdcd = 0
-    f4.close
-    
-    #Vencimiento = ""
-    #Vencimiento = vencimiento(clave_vencimiento)    
-        
-    #def vencimiento(): #buscar si existe alguna configuracion que vence en tres dias ###########################
-    with open(path1 + "schedule.txt", 'r', encoding="utf8") as fx:
-        LineasDeF4 = fx.readlines()
-        fx.seek(0)
-        lineas_enviar_mensajes = fx.readlines()
-    fx.close
-    Fin = len(LineasDeF4)
-    #print("  len(LineasDeF4): " + str(len(LineasDeF4)))
-    sss = "no"
-    for linea in range(Fin):
-        listasXX = ""
-        #f4.seek(0)
-        listasXX =  LineasDeF4[linea] #f4.readlines(linea)
-        #if HORA_UNICA == "00:00":
+    clave_vencimiento = str(DIA_v) + "-" + str(MES_v) + "-" + str(vence1.year) #+ " " + str(horaa)  
+    Recorerlist_mensajes = []
+    Lista_mensaje = []
+    #if HORA_UNICA == "00:00":
+    with open(path1 + "schedule.txt", 'r', encoding="utf8") as fsched:
+        LineasDefsched = fsched.readlines()
+        fsched.seek(0)
+        #with open(path1 + "PersonaGrupoCanal.txt", 'r', encoding="utf8") as fcanal:
         for h24 in range(23):
-            if h24 < 10:HH = " 0" + str(h24)
-            HH = " " + str(h24)
+            if h24 < 10:
+                HH = " 0" + str(h24)
+            else:
+                HH = " " + str(h24)
             clave_vencimientoH = clave_vencimiento + HH
-            if clave_vencimientoH in listasXX:
-                #Sito1 = listasXX[0:150]
-                #print("  chai id: " + str(mi_chat_id) + " linea vence: " + str(lineas_enviar_mensajes[cx-2]))
-                #bot.send_message(mi_chat_id, "AVISO !! Esta configuración Vence dentro de tres días: " + str(lineas_enviar_mensajes[cx-2])) #enviado al canal:" + str(canal_send[canalx]))
-                cx+= 1
-    
-        
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    # #print("  " + "Entro a report")
-    # #w = datetime.now()
-    # #if message.text == "1":
-    # now = datetime.now()
-    # today = date.today()
-    # ejecuta12 = 0
-    # #print(horaC)
-    # #print(time.strftime('%d-%m-%Y', datetime.now()))
-    
-    # if HORA_UNICA == "99:99":
-        # #ejecutar report ahora
-        # ejecuta12 = 1
-        
-    # else:
-        # #ejecutar report cuando toque
-        # ejecuta12 = 2
-    # horaC = int(now.hour)
-    # if ejecuta12 == 2:
-        # if horaC > 9:
-            # horaa = str(horaC)
-        # else:
-            # horaa = "0" + str(horaC)
-        # DIAC = int(today.day)
-        # if DIAC > 9:
-            # DIA = str(DIAC)
-        # else:
-            # DIA = "0" + str(DIAC)
-        # MESC = int(today.month)
-        # if MESC > 9:
-            # MES = str(MESC)
-        # else:
-            # MES = "0" + str(MESC)
-        # clave1 = str(DIA) + "-" + str(MES) + "-" + str(today.year) + " " + str(horaa)
+            ik = 0
+            for ik in range(len(LineasDefsched)):
+                Lista_mensaje = LineasDefsched[ik]
+                Recorerlist_mensajes = eval(Lista_mensaje)
+                if clave_vencimiento in Recorerlist_mensajes[6]:
+                    nombreCliente = Recorerlist_mensajes[0]
+                    nombreGestorCliente = Recorerlist_mensajes[1]
+                    VecesXdia = Recorerlist_mensajes[2]
+                    TiempoEntreMensajes = Recorerlist_mensajes[3]
+                    HoraInicio = Recorerlist_mensajes[4]
+                    FechaInicio = Recorerlist_mensajes[5]
+                    FechaFin = Recorerlist_mensajes[6]
+                    texto = 'Esta Configuración vence en tres días:\n'
+                    texto+= f'<code>NombreCliente:</code> {configuraciones[message.chat.id]["nombreCliente"]}\n'
+                    texto+= f'<code>NombreGestor.:</code> {configuraciones[message.chat.id]["nombreGestorCliente"]}\n'
+                    texto+= f'<code>Veces x día..:</code> {configuraciones[message.chat.id]["VecesXdia"]}\n'
+                    texto+= f'<code>Tiempo/Mensje:</code> {configuraciones[message.chat.id]["TiempoEntreMensajes"]}\n'
+                    texto+= f'<code>Hora Inicio..:</code> {configuraciones[message.chat.id]["HoraInicio"]}\n'
+                    texto+= f'<code>FechaInicio..:</code> {configuraciones[message.chat.id]["FechaInicio"]}\n'
+                    texto+= f'<code>FechaFin.....:</code> {configuraciones[message.chat.id]["FechaFin"]}\n'
+                    msg_mostrarX = bot.send_message(mi_chat_id, texto, parse_mode="HTML")
+                ik+= 2
+    fsched.close
 
-        # linea = 0
-        # cx = 0
-        # with open(path1 + "schedule.txt", 'r', encoding="utf8") as f4:
-            # LineasDeF4 = f4.readlines()
-            # f4.seek(0)
-            # lineas_enviar_mensajes = f4.readlines()
-        # f4.close
-        # Fin = len(LineasDeF4)
-        # #print("  len(LineasDeF4): " + str(len(LineasDeF4)))
-        # sss = "no"
-    # if ejecuta12 == 1:
-        # with open(path1 + "schedule.txt", 'r', encoding="utf8") as f4:
-            # LineasDeF4 = f4.readlines()
-            # f4.seek(0)
-            # lineas_enviar_mensajes = f4.readlines()
-        # f4.close
-        # #LEER PRIMERA CONFIGURACION Y ENVIARLA AHORA
-        # #for linea in range(1):
-        # #SLEEP_VAR = listasXX[17:18]
-        # #print("---" + SLEEP_VAR)
-        # cx = 0
-        # lineas_enviar_mensajes[cx] = 1
-
-
-
-                
-    # if ejecuta12 == 2: 
-        # #LEER TODO CONMO SE DEBE PARA ESCHEDULE
-        # for linea in range(Fin):
-            # listasXX = ""
-            # #f4.seek(0)
-            # listasXX =  LineasDeF4[linea] #f4.readlines(linea)
-
-            # if clave1 in listasXX:
-                # #print("index: " + str(c) +", linea: "+str(linea))
-                # SLEEP_VAR = listasXX[17:18]
-                # print("---" + SLEEP_VAR)
-                # lineas_enviar_mensajes[cx] = str(linea+1)
-                # if linea == Fin:
-                    # pass
-                # else:    
-                    # cx+= 1
-                # sss = "si"
-            # else:
-                # sss = "no"
-
-    # ### recorrer la lista de mensajes y enviarlos.
-    # linea_mensajes = []
-    # #linea_mensajes = 0
-    # list_mensajes = []
-    # #list_mensajes = 0
-    # #lineaX = []
-    # lineaX = 0
-    # i = 0
-    # iii = 0
-    # with open(path1 + "schedule.txt", 'r', encoding="utf8") as f4:
-        # lineas_leidas = f4.readlines()
-        # for iii in range(cx):
-            # #print("   leer msg temp: " + str(len(lineas_enviar_mensajes)))
-            # #f4.seek(0)
-            # LineaEspecifica = int(lineas_enviar_mensajes[iii])
-            # f4.seek(0)
-            # #lineas_leidas[LineaEspecifica] = f4.read()
-            # linea_mensajes = lineas_leidas[LineaEspecifica]
-            # print("   int(lineas_enviar_mensajes[iii]):" + str(int(lineas_enviar_mensajes[iii])))
-            # #print("   lineas_leidas[LineaEspecifica] :" + str(lineas_leidas[LineaEspecifica]))
-            # #print("  LineaEspecifica " + str(LineaEspecifica))
-            # #linea_mensajes = f4.readline(int(lineas_enviar_mensajes[iii]))
-
-            # with open(path1 + "PersonaGrupoCanal.txt", 'r', encoding="utf8") as fcanal:
-                # canal_send = fcanal.readlines()
-                # fcanal.close
-            # list_mensajes = eval(linea_mensajes)
-            # listasR = ""
-            # for ii in list_mensajes:
-                # listasR+= str(ii)
-            # with open(path1 + "mensaje_temp.txt", 'w', encoding="utf8") as fa:
-                # fa.write(listasR) 
-            # fa.close
-            # with open(path1 + "mensaje_temp.txt", 'r', encoding="utf8") as fc:
-                # #print("   leer msg temp: " + "4")
-                # msg_send = fc.readlines()
-                # print("  Entro a menjaje temp " + msg_send)
-                # i = 0
-                # for i in range(len(msg_send)):
-                    # for canalx in range(len(canal_send)):
-                        # print("  Entro a for " + canal_send[canalx])
-                        # bot.copy_message(canal_send[canalx], mi_chat_id, int(msg_send[i]))
-                        # bot.forward_message(canal_send[canalx], mi_chat_id, int(msg_send[i])) 
-                        # bot.send_message(mi_chat_id, "Mensage #: " + str(int(msg_send[i])) + " enviado al canal:" + str(canal_send[canalx]))
-                        # if SLEEP_VAR == isdigit():
-                            # sleep = int(SLEEP_VAR)
-            # fc.close
-    # f4.close
         
 #####################################################################################################################################         
 #####################################################################################################################################            
@@ -694,12 +424,7 @@ def report1(HORA_UNICA):
 @bot.message_handler(content_types=["audio", "document", "photo", "sticker", "video", "video_note", "voice", "location", "contact", "pinned_message"])
 def cmd_otro1(message):
     Correr_def = cmd_publicar(message)
-# @bot.message_handler(content_types=["video"])
-# def cmd_videoo1(message):
-    # Correr_def = cmd_publicar(message)
-# @bot.message_handler(content_types=["audio"])
-# def cmd_audio1(message):
-    # Correr_def = cmd_publicar(message)
+
     
 #####################################################################################################################################         
 #####################################################################################################################################            
@@ -1189,8 +914,9 @@ print('   Sub Final')
 def activar_schedule():
     print("     SCHEDULE INICIADO...")
     #schedule.every().day.at(HORA_UNICA).do(report)
-    schedule.every().day.at("22:20").do(report)#server +4
-    schedule.every().day.at("18:20").do(report)#local +4
+    #schedule.every().day.at("12:00").do(report_fecha_vence)
+    schedule.every().day.at("00:45").do(report)#server +4
+    schedule.every().day.at("04:45").do(report)#local +4
     schedule.every().day.at("00:00").do(report)
     schedule.every().day.at("01:00").do(report)
     schedule.every().day.at("02:00").do(report)
