@@ -365,7 +365,7 @@ def report1(HORA_UNICA):
 def verconfiguraciones():
     msg_mostrarX = bot.send_message(mi_chat_id, "Pediste entrar a /verconfig ")
     current1 = datetime.now()
-    tomorrow1 = timedelta(4)
+    tomorrow1 = timedelta(3)
     vence1 = current1 + tomorrow1
     DIA_v = str(vence1.day)
     MES_v = str(vence1.month)
