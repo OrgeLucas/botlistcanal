@@ -329,10 +329,10 @@ def report1(HORA_UNICA):
                                 #print("   " + str(int(Id_Canal_Send)) + "  " + str(mi_chat_id) + " " + str(int(iimsg)))
                                 try:
                                     msgP = bot.send_message(mi_chat_id, "  Mensajes: " + str(iimsg) + " Canal: " + str(Id_Canal_Send))
-                                    #bot.forward_message(idCanal, mi_chat_id, Idmsg)
-                                    bot.send_message(mi_chat_id, "Mensage #: " + str(iimsg) + " enviado al canal:" + str(Id_Canal_Send))
+                                    msgP = bot.forward_message(idCanal, mi_chat_id, Idmsg)
+                                    msgP = bot.send_message(mi_chat_id, "Mensage #: " + str(iimsg) + " enviado al canal:" + str(Id_Canal_Send))
                                 except:
-                                    bot.send_message(mi_chat_id, "ERROR: Mensage #: " + str(iimsg) + " NO enviado al canal:" + str(Id_Canal_Send))
+                                    msgP = bot.send_message(mi_chat_id, "ERROR: Mensage #: " + str(iimsg) + " NO enviado al canal:" + str(Id_Canal_Send))
             fcanal.close
         fsched.close
     if HORA_UNICA == "99:99":
@@ -358,10 +358,10 @@ def report1(HORA_UNICA):
                         #print("   " + str(int(Id_Canal_Send)) + "  " + str(mi_chat_id) + " " + str(int(iimsg)))
                         try:
                             msgP = bot.send_message(mi_chat_id, "  Mensajes: " + str(iimsg) + " Canal: " + str(Id_Canal_Send))
-                            #bot.forward_message(idCanal, mi_chat_id, Idmsg)
-                            bot.send_message(mi_chat_id, "Mensage #: " + str(iimsg) + " enviado al canal:" + str(Id_Canal_Send))
+                            msgP = bot.forward_message(idCanal, mi_chat_id, Idmsg)
+                            msgP = bot.send_message(mi_chat_id, "Mensage #: " + str(iimsg) + " enviado al canal:" + str(Id_Canal_Send))
                         except:
-                            bot.send_message(mi_chat_id, "ERROR: Mensage #: " + str(iimsg) + " NO enviado al canal:" + str(Id_Canal_Send))
+                            msgP = bot.send_message(mi_chat_id, "ERROR: Mensage #: " + str(iimsg) + " NO enviado al canal:" + str(Id_Canal_Send))
             fcanal.close
         fsched.close
         
@@ -915,8 +915,8 @@ def activar_schedule():
     print("     SCHEDULE INICIADO...")
     #schedule.every().day.at(HORA_UNICA).do(report)
     #schedule.every().day.at("12:00").do(report_fecha_vence)
-    schedule.every().day.at("00:45").do(report)#server +4
-    schedule.every().day.at("04:45").do(report)#local +4
+    schedule.every().day.at("00:50").do(report)#server +4
+    schedule.every().day.at("04:50").do(report)#local +4
     schedule.every().day.at("00:00").do(report)
     schedule.every().day.at("01:00").do(report)
     schedule.every().day.at("02:00").do(report)
