@@ -983,7 +983,7 @@ def activar_schedule():
     #schedule.every().day.at(HORA_UNICA).do(report)
     schedule.every().day.at("12:00").do(report_fecha_vence)
     schedule.every().day.at("00:50").do(report)#server +4
-    schedule.every().day.at("07:12").do(report)#local +4
+    schedule.every().day.at("19:18").do(report)#local +4
     schedule.every().day.at("00:00").do(report)
     schedule.every().day.at("01:00").do(report)
     schedule.every().day.at("02:00").do(report)
