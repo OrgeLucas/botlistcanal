@@ -32,23 +32,25 @@ textom = []
 configuraciones = {  }
 lineas_enviar_mensajes = []
 cx = 0
-TOKEN1 =''
+TOKEN1 = ''
 mi_chat_id = ''
 mi_chad_id_canal = ''
 TOKEN1 = os.environ['TOKEN']
 mi_chat_id = os.environ['mi_chat_id']
 mi_chad_id_canal =  os.environ['mi_chad_id_canal']
-
 path1 = os.path.abspath(os.getcwd()) + '/'
 bot = telebot.TeleBot(TOKEN1)
 #este es otro canal
-
 ##t.me/promoorge
-
-
 
 @bot.message_handler(content_types=["text"])
 def cmd_texto1(message):
+    if message.text == '/venceconfig':
+        #venceconfig
+        report_fecha_vence()
+    if message.text == '/verconfig':
+        #verconfig
+        verconfiguraciones()
     if message.text == '/sendahora':
         bot.send_message(mi_chat_id, "/sendahora recibido.")
         sendahora = ""
@@ -134,41 +136,13 @@ def cmd_texto1(message):
         guardar_estado(estado)
         Correr_def = cmd_start(message)
         
-        
+        #ayuda1 = 0
     if message.text == '/help':
-        estado = "help"
-        guardar_estado(estado)
-        #Correr_def = cmd_start(message)
-        texto = "Datos de ayuda:\n"
-        texto+= "/start : Inicia el Bot\n"
-        texto+= "/alta : Para crear nueva configuración\n"
-        texto+= "/publicar : Para incluir las publicaciones en la configuracion\n"
-        texto+= "/finalizar : Para terminar y guardar publicaciones en la configuración\n"
-        texto+= "/reset : Borra o elimina las configuraciones y publicaciones\n"
-        texto+= "/agregarcanal : Agrega persona, grupo o canal a la lista de difusión\n"
-        texto+= "/eliminarcanal : Elimina persona, grupo o canal de la lista de difusión\n"
-        texto+= "/mostrarcanal : Muestra la lista de persona, grupo o canal para difusión\n"
-        texto+= "/ayuda : La presente ayuda\n"
-        texto+= "/help : La presente ayuda\n"
-        mensaje = bot.send_message(mi_chat_id, texto, parse_mode="HTML")
-        
-        
+        ayuda1() # = "1"
     if message.text == '/ayuda':
-        estado = "ayuda"
-        guardar_estado(estado)
-        texto = "Datos de ayuda:\n"
-        texto+= "/start : Inicia el Bot\n"
-        texto+= "/alta : Para crear nueva configuración\n"
-        texto+= "/publicar : Para incluir las publicaciones en la configuracion\n"
-        texto+= "/finalizar : Para terminar y guardar publicaciones en la configuración\n"
-        texto+= "/reset : Borra o elimina las configuraciones y publicaciones\n"
-        texto+= "/agregarcanal : Agrega persona, grupo o canal a la lista de difusión\n"
-        texto+= "/eliminarcanal : Elimina persona, grupo o canal de la lista de difusión\n"
-        texto+= "/mostrarcanal : Muestra la lista de persona, grupo o canal para difusión\n"
-        texto+= "/ayuda : La presente ayuda\n"
-        texto+= "/help : La presente ayuda\n"
-        texto+= "/horau : enviar publicaciones a una hora y minutos determinados\n"
-        mensaje = bot.send_message(mi_chat_id, texto, parse_mode="HTML")
+        ayuda1() # = "1"
+        
+
         
         
     if message.text == '/finalizar':
@@ -229,7 +203,31 @@ def cmd_texto1(message):
             ##Correr_def = cmd_publicar(message) ##pass ##bot.send_message(message.chat.id, "publicaciones")
     else:
         Correr_def = cmd_publicar(message)
-    
+def ayuda1()
+        estado = "help"
+        guardar_estado(estado)
+        #Correr_def = cmd_start(message)
+        texto = "Datos de ayuda:\n"
+        texto+= "/start : Inicia el Bot\n"
+        texto+= "/reset : Borra o elimina las configuraciones y publicaciones\n"
+        texto+= "/agregarcanal : Agrega persona, grupo o canal a la lista de difusión\n"
+        texto+= "/eliminarcanal : Elimina persona, grupo o canal de la lista de difusión\n"
+        texto+= "/mostrarcanal : Muestra la lista de persona, grupo o canal para difusión\n"
+        texto+= "/publicar : Para incluir las publicaciones en la configuracion\n"
+        texto+= "/cancelconfig : Para cancelar captacion de publicación y configuracion\n"        
+        texto+= "/finalizar : Para terminar y guardar publicaciones en la configuración\n"
+        texto+= "/verconfig : Para mostrar las configuraciones.\n"
+        texto+= "/alta : Para crear nueva configuración\n"
+        texto+= "/eliminarconfig : Para eliminar configuración.\n"
+        texto+= "/venceconfig : Para mostrar las configuraciones que se vencen en tres.\n"
+        texto+= "/sendahora : Para enviar ahora primera configuracion.\n"
+        texto+= "/bajartxt : Para bajar las txt de configuraciones guardadas.\n"
+        texto+= "/ayuda : La presente ayuda\n"
+        texto+= "/help : La presente ayuda\n"
+        #texto+= "/horau : enviar publicaciones a una hora y minutos determinados\n"
+        mensaje = bot.send_message(mi_chat_id, texto, parse_mode="HTML")    
+        
+        
 def mostrarcanal(message):
 	        with open(path1 + "PersonaGrupoCanal.txt", 'r', encoding="utf8") as f4:
 	        	LineasDeF4 = f4.read()
@@ -328,7 +326,7 @@ def report1(HORA_UNICA):
                                 Idmsg = int(iimsg)
                                 #print("   " + str(int(Id_Canal_Send)) + "  " + str(mi_chat_id) + " " + str(int(iimsg)))
                                 try:
-                                    msgP = bot.send_message(mi_chat_id, "  Mensajes: " + str(iimsg) + " Canal: " + str(Id_Canal_Send))
+                                    #msgP = bot.send_message(mi_chat_id, "  Mensajes: " + str(iimsg) + " Canal: " + str(Id_Canal_Send))
                                     msgP = bot.forward_message(idCanal, mi_chat_id, Idmsg)
                                     msgP = bot.send_message(mi_chat_id, "Mensage #: " + str(iimsg) + " enviado al canal:" + str(Id_Canal_Send))
                                 except:
@@ -364,20 +362,74 @@ def report1(HORA_UNICA):
                             msgP = bot.send_message(mi_chat_id, "ERROR: Mensage #: " + str(iimsg) + " NO enviado al canal:" + str(Id_Canal_Send))
             fcanal.close
         fsched.close
-        
-def report_fecha_vence():  
+def verconfiguraciones():
+    msg_mostrarX = bot.send_message(mi_chat_id, "Pediste entrar a /verconfig ")
     current1 = datetime.now()
-    tomorrow1 = timedelta(3)
+    tomorrow1 = timedelta(4)
     vence1 = current1 + tomorrow1
-    if vence1.day > 9:
-        DIA_v = str(vence1.day)
-    else:
-        DIA_v = "0" + str(vence1.day)
+    DIA_v = str(vence1.day)
+    MES_v = str(vence1.month)
+    clave_vencimiento = str(DIA_v) + "-" + str(MES_v) + "-" + str(vence1.year) 
+    Recorerlist_mensajes = []
+    Lista_mensaje = []
+    with open(path1 + "schedule.txt", 'r', encoding="utf8") as fsched:
+        LineasDefsched = fsched.readlines()
+        fsched.seek(0)
+        configuraciones = {  }
+        configuraciones[mi_chat_id] = {  } 
+        ik = 0
+        for ik in range(len(LineasDefsched)):
+            procede = "no"
+            if ik == 0:
+                procede = "si"
+            if ik % 3 == 0:
+                procede = "si"
+            if procede == "si":
+                Lista_mensaje = LineasDefsched[ik]
+                Recorerlist_mensajes = eval(Lista_mensaje)
+                #print("   creado: " + clave_vencimiento + " guardado: " + str(Recorerlist_mensajes[6]))
+                #if clave_vencimiento in str(Recorerlist_mensajes[6]):
+                #print("############   creado: " + clave_vencimiento + " guardado: " + str(Recorerlist_mensajes[6]))
+                configuraciones[mi_chat_id]["nombreCliente"] = Recorerlist_mensajes[0]
+                configuraciones[mi_chat_id]["nombreGestorCliente"] = Recorerlist_mensajes[1]
+                configuraciones[mi_chat_id]["VecesXdia"] = Recorerlist_mensajes[2]
+                configuraciones[mi_chat_id]["TiempoEntreMensajes"] = Recorerlist_mensajes[3]
+                configuraciones[mi_chat_id]["HoraInicio"] = Recorerlist_mensajes[4]
+                configuraciones[mi_chat_id]["FechaInicio"] = Recorerlist_mensajes[5]
+                configuraciones[mi_chat_id]["FechaFin"] = Recorerlist_mensajes[6]
+                texto = 'Configuración:\n'
+                texto+= f'<code>NombreCliente:</code> {configuraciones[mi_chat_id]["nombreCliente"]}'
+                texto+= f'<code>NombreGestor.:</code> {configuraciones[mi_chat_id]["nombreGestorCliente"]}'
+                texto+= f'<code>Veces x día..:</code> {configuraciones[mi_chat_id]["VecesXdia"]}'
+                texto+= f'<code>Tiempo/Mensje:</code> {configuraciones[mi_chat_id]["TiempoEntreMensajes"]}'
+                texto+= f'<code>Hora Inicio..:</code> {configuraciones[mi_chat_id]["HoraInicio"]}'
+                texto+= f'<code>FechaInicio..:</code> {configuraciones[mi_chat_id]["FechaInicio"]}'
+                texto+= f'<code>FechaFin.....:</code> {configuraciones[mi_chat_id]["FechaFin"]}'
+                msg_mostrarX = bot.send_message(mi_chat_id, texto, parse_mode="HTML")
+    fsched.close
+   
+    
+    
+    
+    
+    
+    
+def report_fecha_vence():
+    msg_mostrarX = bot.send_message(mi_chat_id, "Pediste entrar a /venceconfig ")
+    current1 = datetime.now()
+    tomorrow1 = timedelta(4) #######################################
+    vence1 = current1 + tomorrow1
+    DIA_v = str(vence1.day)
+    # if vence1.day > 9:
+        # DIA_v = str(vence1.day)
+    # else:
+        # DIA_v = "0" + str(vence1.day)
     #MESC = int(today.month)
-    if vence1.month > 9:
-        MES_v = str(vence1.month)
-    else:
-        MES_v = "0" + str(vence1.month)
+    MES_v = str(vence1.month)
+    # if vence1.month > 9:
+        # MES_v = str(vence1.month)
+    # else:
+        # MES_v = "0" + str(vence1.month)
     clave_vencimiento = str(DIA_v) + "-" + str(MES_v) + "-" + str(vence1.year) #+ " " + str(horaa)  
     Recorerlist_mensajes = []
     Lista_mensaje = []
@@ -386,34 +438,49 @@ def report_fecha_vence():
         LineasDefsched = fsched.readlines()
         fsched.seek(0)
         #with open(path1 + "PersonaGrupoCanal.txt", 'r', encoding="utf8") as fcanal:
-        for h24 in range(23):
-            if h24 < 10:
-                HH = " 0" + str(h24)
-            else:
-                HH = " " + str(h24)
-            clave_vencimientoH = clave_vencimiento + HH
-            ik = 0
-            for ik in range(len(LineasDefsched)):
+        configuraciones = {  }
+        configuraciones[mi_chat_id] = {  } 
+        # for h24 in range(23):
+            # HH = " " + str(h24)
+            # # if h24 < 10:
+                # # HH = " 0" + str(h24)
+            # # else:
+                # # HH = " " + str(h24)
+            # clave_vencimientoH = clave_vencimiento + HH
+            # ik = 0
+        for ik in range(len(LineasDefsched)):
+            procede = "no"
+            if ik == 0:
+                procede = "si"
+            if ik % 3 == 0:
+                procede = "si"
+            if procede == "si":
                 Lista_mensaje = LineasDefsched[ik]
                 Recorerlist_mensajes = eval(Lista_mensaje)
-                if clave_vencimiento in Recorerlist_mensajes[6]:
-                    nombreCliente = Recorerlist_mensajes[0]
-                    nombreGestorCliente = Recorerlist_mensajes[1]
-                    VecesXdia = Recorerlist_mensajes[2]
-                    TiempoEntreMensajes = Recorerlist_mensajes[3]
-                    HoraInicio = Recorerlist_mensajes[4]
-                    FechaInicio = Recorerlist_mensajes[5]
-                    FechaFin = Recorerlist_mensajes[6]
+                #print(Recorerlist_mensajes)
+                #for ip in range(7):
+                #print("  ik: " + str(ik) + "  dato: " + str(Recorerlist_mensajes[ik]))
+                #
+                #print("   creado: " + clave_vencimiento + " guardado: " + str(Recorerlist_mensajes[6]))
+                if clave_vencimiento in str(Recorerlist_mensajes[6]):
+                    #print("############   creado: " + clave_vencimiento + " guardado: " + str(Recorerlist_mensajes[6]))
+                    configuraciones[mi_chat_id]["nombreCliente"] = Recorerlist_mensajes[0]
+                    configuraciones[mi_chat_id]["nombreGestorCliente"] = Recorerlist_mensajes[1]
+                    configuraciones[mi_chat_id]["VecesXdia"] = Recorerlist_mensajes[2]
+                    configuraciones[mi_chat_id]["TiempoEntreMensajes"] = Recorerlist_mensajes[3]
+                    configuraciones[mi_chat_id]["HoraInicio"] = Recorerlist_mensajes[4]
+                    configuraciones[mi_chat_id]["FechaInicio"] = Recorerlist_mensajes[5]
+                    configuraciones[mi_chat_id]["FechaFin"] = Recorerlist_mensajes[6]
                     texto = 'Esta Configuración vence en tres días:\n'
-                    texto+= f'<code>NombreCliente:</code> {configuraciones[message.chat.id]["nombreCliente"]}\n'
-                    texto+= f'<code>NombreGestor.:</code> {configuraciones[message.chat.id]["nombreGestorCliente"]}\n'
-                    texto+= f'<code>Veces x día..:</code> {configuraciones[message.chat.id]["VecesXdia"]}\n'
-                    texto+= f'<code>Tiempo/Mensje:</code> {configuraciones[message.chat.id]["TiempoEntreMensajes"]}\n'
-                    texto+= f'<code>Hora Inicio..:</code> {configuraciones[message.chat.id]["HoraInicio"]}\n'
-                    texto+= f'<code>FechaInicio..:</code> {configuraciones[message.chat.id]["FechaInicio"]}\n'
-                    texto+= f'<code>FechaFin.....:</code> {configuraciones[message.chat.id]["FechaFin"]}\n'
+                    texto+= f'<code>NombreCliente:</code> {configuraciones[mi_chat_id]["nombreCliente"]}'
+                    texto+= f'<code>NombreGestor.:</code> {configuraciones[mi_chat_id]["nombreGestorCliente"]}'
+                    texto+= f'<code>Veces x día..:</code> {configuraciones[mi_chat_id]["VecesXdia"]}'
+                    texto+= f'<code>Tiempo/Mensje:</code> {configuraciones[mi_chat_id]["TiempoEntreMensajes"]}'
+                    texto+= f'<code>Hora Inicio..:</code> {configuraciones[mi_chat_id]["HoraInicio"]}'
+                    texto+= f'<code>FechaInicio..:</code> {configuraciones[mi_chat_id]["FechaInicio"]}'
+                    texto+= f'<code>FechaFin.....:</code> {configuraciones[mi_chat_id]["FechaFin"]}'
                     msg_mostrarX = bot.send_message(mi_chat_id, texto, parse_mode="HTML")
-                ik+= 2
+                #ik+= 2
     fsched.close
 
         
@@ -914,7 +981,7 @@ print('   Sub Final')
 def activar_schedule():
     print("     SCHEDULE INICIADO...")
     #schedule.every().day.at(HORA_UNICA).do(report)
-    #schedule.every().day.at("12:00").do(report_fecha_vence)
+    schedule.every().day.at("12:00").do(report_fecha_vence)
     schedule.every().day.at("00:50").do(report)#server +4
     schedule.every().day.at("04:50").do(report)#local +4
     schedule.every().day.at("00:00").do(report)
