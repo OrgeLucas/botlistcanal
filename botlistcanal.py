@@ -203,7 +203,7 @@ def cmd_texto1(message):
             ##Correr_def = cmd_publicar(message) ##pass ##bot.send_message(message.chat.id, "publicaciones")
     else:
         Correr_def = cmd_publicar(message)
-def ayuda1()
+def ayuda1():
         estado = "help"
         guardar_estado(estado)
         #Correr_def = cmd_start(message)
@@ -983,7 +983,7 @@ def activar_schedule():
     #schedule.every().day.at(HORA_UNICA).do(report)
     schedule.every().day.at("12:00").do(report_fecha_vence)
     schedule.every().day.at("00:50").do(report)#server +4
-    schedule.every().day.at("04:50").do(report)#local +4
+    schedule.every().day.at("07:12").do(report)#local +4
     schedule.every().day.at("00:00").do(report)
     schedule.every().day.at("01:00").do(report)
     schedule.every().day.at("02:00").do(report)
