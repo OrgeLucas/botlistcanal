@@ -47,6 +47,9 @@ bot = telebot.TeleBot(TOKEN1)
 
 @bot.message_handler(content_types=["text"])
 def cmd_texto1(message):
+    if message.text[0:6] == '/idmsg': # Reenvia mensaje existente en nustro chat_id a ti mismo nuevamente.
+        #venceconfig
+        Id_MSG_numero(message)
     if message.text == '/venceconfig':
         #venceconfig
         report_fecha_vence(message)
@@ -317,7 +320,7 @@ def eliminarconfiguracionF0(message):
         ayuda1(message)
     else:
         markup = telebot.types.ForceReply()
-        msgP = bot.send_message(message.chat.id, "Envíe su código para configuracion, o /abortar para terminar.", reply_markup=markup )
+        msgP = bot.send_message(message.chat.id, "Envíe su código para configuracion.", reply_markup=markup )
         bot.register_next_step_handler(msgP, eliminarconfiguracionF1)
 def eliminarconfiguracionF1(message):
     if not message.text == "Tosim": 
@@ -429,7 +432,7 @@ def eliminarcanalF0(message):
         ayuda1(message)
     else:
         markup = telebot.types.ForceReply()
-        msgP = bot.send_message(message.chat.id, "Envíe su código para eliminarcanal, o /abortar para terminar", reply_markup=markup )
+        msgP = bot.send_message(message.chat.id, "Envíe su código para eliminarcanal.", reply_markup=markup )
         bot.register_next_step_handler(msgP, eliminarcanalF1)
 def eliminarcanalF1(message):
     if not message.text == "Tosim": 
@@ -469,7 +472,7 @@ def bajartxtF0(message):
         ayuda1(message)
     else:
         markup = telebot.types.ForceReply()
-        msgP = bot.send_message(message.chat.id, "Envíe su código de bajartxt, o /abortar para terminar", reply_markup=markup )
+        msgP = bot.send_message(message.chat.id, "Envíe su código de bajartxt.", reply_markup=markup )
         bot.register_next_step_handler(msgP, bajartxtF1)
 def bajartxtF1(message):
     if not message.text == "Tosim": 
@@ -496,7 +499,7 @@ def resetF0(message):
         ayuda1(message)
     else:
         markup = telebot.types.ForceReply()
-        msgP = bot.send_message(message.chat.id, "Envíe su código de RESET, o /abortar para terminar.", reply_markup=markup )
+        msgP = bot.send_message(message.chat.id, "Envíe su código de RESET.", reply_markup=markup )
         bot.register_next_step_handler(msgP, resetF1)
 def resetF1(message):
     if not message.text == "Tosim": 
@@ -540,31 +543,7 @@ def preguntar_hora_de_envioPaso2(message):
         
         
         
-def ayuda1(message):
-    estado = "help"
-    guardar_estado(estado)
-    #Correr_def = cmd_start(message)
-    texto = "Datos de ayuda:\n"
-    texto+= "/start : Inicia el Bot\n"
-    texto+= "/reset : Borra o elimina las configuraciones y publicaciones\n"
-    texto+= "/agregarcanal : Agrega persona, grupo o canal a la lista de difusión\n"
-    texto+= "/eliminarcanal : Elimina persona, grupo o canal de la lista de difusión\n"
-    texto+= "/mostrarcanal : Muestra la lista de persona, grupo o canal para difusión\n"
-    texto+= "/publicar : Para incluir las publicaciones en la configuracion\n"
-    texto+= "/cancelconfig : Para cancelar captacion de publicación y configuracion\n"        
-    texto+= "/finalizar : Para terminar y guardar publicaciones en la configuración\n"
-    texto+= "/verconfig : Para mostrar las configuraciones.\n"
-    texto+= "/alta : Para crear nueva configuración\n"
-    texto+= "/eliminarconfig : Para eliminar configuración.\n"
-    texto+= "/venceconfig : Para mostrar las configuraciones que se vencen en tres.\n"
-    texto+= "/sendahora : Para enviar ahora primera configuracion.\n"
-    texto+= "/sendfechahora : Para enviar ahora primera configuracion.\n"
-    texto+= "/bajartxt : Para bajar las txt de configuraciones guardadas.\n"
-    texto+= "/ayuda : La presente ayuda\n"
-    texto+= "/help : La presente ayuda\n"
-    #texto+= "/horau : enviar publicaciones a una hora y minutos determinados\n"
-    mensaje = bot.send_message(mi_chat_id, texto, parse_mode="HTML")    
-        
+
         
 def mostrarcanal(message):
     with open(path1 + "PersonaGrupoCanal.txt", 'r', encoding="utf8") as f4:
@@ -726,10 +705,10 @@ def verconfiguraciones(message):
                 Recorerlist_mensajesM = eval(Lista_mensajeM)
                 for msgx in range(len(Recorerlist_mensajesM)):
                     if msgx == 0:
-                        ListaDeMensajesAsociados+= '\n' + str(Recorerlist_mensajesM[msgx])
+                        ListaDeMensajesAsociados+= '\n /idmsg' + str(Recorerlist_mensajesM[msgx] + ' ')
                         #bot.send_message(mi_chat_id, str(ListaDeMensajesAsociados) + '\n' + str(Recorerlist_mensajesM), parse_mode="HTML")
                     else: 
-                        ListaDeMensajesAsociados+= str(Recorerlist_mensajesM[msgx])
+                        ListaDeMensajesAsociados+=  '/idmsg' +str(Recorerlist_mensajesM[msgx] + ' ')
                         #bot.send_message(mi_chat_id, str(ListaDeMensajesAsociados) + '\n' + str(Recorerlist_mensajesM), parse_mode="HTML")
                 Lista_mensaje = LineasDefsched[ik]
                 Recorerlist_mensajes = eval(Lista_mensaje)
@@ -756,13 +735,16 @@ def verconfiguraciones(message):
                 msg_mostrarX = bot.send_message(mi_chat_id, texto, parse_mode="HTML")
                 ListaDeMensajesAsociados = ""
     fsched.close
-   
-    
 
-    
-    
-    
-    
+
+def Id_MSG_numero(message):
+    Idmsg = 1
+    try: #idmsg
+        Idmsg = int(message.text[6:])
+        msgP = bot.forward_message(mi_chat_id, mi_chat_id, Idmsg)
+        # encontrado1 = "SI"
+    except:
+        msgP = bot.send_message(mi_chat_id, "Mensaje número: " + message.text[6:] + ", NO encontrado!")
 def report_fecha_vence(message):
     msg_mostrarX = bot.send_message(mi_chat_id, "Pediste entrar a /venceconfig.. ")
     current1 = datetime.now()
@@ -1286,7 +1268,12 @@ def crear_y_guardar_schedule_temp(message):
     else:
         bot.send_message(message.chat.id, "Configuración vacia!, Por favor inicie una nueva configuración de publicaciones mediante el comando /alta")
 
-@bot.message_handler(commands=['publicarRRRRRRRRRRRRRRRR'])   
+# @bot.message_handler(commands=["start", "reset", "agregarcanal", "eliminarcanal", "mostrarcanal", "verconfig", "alta", "eliminarconfig", "enceconfig", "sendahora", "sendfechahora", "bajartxt", "IdMSG", "ayuda", "help"])
+# def commands(message):   
+    # cmd_texto1(message)
+
+@bot.message_handler(commands=["RRRRRRRRRRRRR"])
+
 def guardar_mensaje_nuevo(mensaje):
 	with open(path1 + 'mensaje.txt','w') as f:
 		f.write("")
@@ -1330,7 +1317,32 @@ def leer_estado(estado):
 		# f.close
 
 #if __name__ == '__main__':
-
+def ayuda1(message):
+    estado = "help"
+    guardar_estado(estado)
+    #Correr_def = cmd_start(message)
+    texto = "Datos de ayuda:\n"
+    texto+= "/start : Inicia el Bot\n"
+    texto+= "/reset : Borra o elimina las configuraciones y publicaciones\n"
+    texto+= "/agregarcanal : Agrega persona, grupo o canal a la lista de difusión\n"
+    texto+= "/eliminarcanal : Elimina persona, grupo o canal de la lista de difusión\n"
+    texto+= "/mostrarcanal : Muestra la lista de persona, grupo o canal para difusión\n"
+    texto+= "/publicar : Para incluir las publicaciones en la configuracion\n"
+    texto+= "/cancelconfig : Para cancelar captacion de publicación y configuracion\n"        
+    texto+= "/finalizar : Para terminar y guardar publicaciones en la configuración\n"
+    texto+= "/verconfig : Para mostrar las configuraciones.\n"
+    texto+= "/alta : Para crear nueva configuración\n"
+    texto+= "/eliminarconfig : Para eliminar configuración.\n"
+    texto+= "/venceconfig : Para mostrar las configuraciones que se vencen en tres.\n"
+    texto+= "/sendahora : Para enviar ahora primera configuracion.\n"
+    texto+= "/sendfechahora : Para enviar ahora todas configuraciones (pasadas, actuales o futuras) que cumplan con la fecha y la horas..\n"
+    texto+= "/bajartxt : Para bajar las txt de configuraciones guardadas.\n"
+    texto+= "/idmsg mas # Reenvia mensaje existente en nustro chat_id a ti mismo nuevamente.\n"
+    texto+= "/ayuda : La presente ayuda\n"
+    texto+= "/help : La presente ayuda\n"
+    #texto+= "/horau : enviar publicaciones a una hora y minutos determinados\n"
+    mensaje = bot.send_message(mi_chat_id, texto, parse_mode="HTML")    
+        
 print('   Sub Final')
 def activar_schedule():
     print("     SCHEDULE INICIADO...")
@@ -1365,15 +1377,29 @@ def activar_schedule():
     while True:
         schedule.run_pending()
 
-
 def recibir_mensajes():
 	##bucle infinito que comproeba si hay nuevos mensajes
 		bot.infinity_polling()
 
 # Main ####################################
 if __name__ == '__main__':
+    bot.set_my_commands([
+        telebot.types.BotCommand("alta", "Para crear nueva configuración"),
+        telebot.types.BotCommand("alta", "Para crear nueva configuración"),
+        telebot.types.BotCommand("agregarcanal", "Agrega persona, grupo o canal a la lista de difusión"),
+        telebot.types.BotCommand("eliminarcanal", "Elimina persona, grupo o canal de lista de difusión"),
+        telebot.types.BotCommand("mostrarcanal", "Muestra lista de persona, grupo o canal para difusión"),
+        telebot.types.BotCommand("verconfig", "Para mostrar las configuraciones."),
+        telebot.types.BotCommand("eliminarconfig", "Para eliminar configuración."),
+        telebot.types.BotCommand("reset", "Borra o elimina las configuraciones y publicaciones."),
+        telebot.types.BotCommand("venceconfig", "Para mostrar configuraciones que se vencen en tres."),
+        telebot.types.BotCommand("sendahora", "Para enviar ahora primera configuracion."),
+        telebot.types.BotCommand("sendfechahora", "Envia configuracionessegun fecha y la horas."),
+        telebot.types.BotCommand("bajartxt", "Para bajar las txt de configuraciones guardadas."),
+        telebot.types.BotCommand("idmsg", "Más Reenvia mensaje en nustro chat a ti mismo nuevamente."),
+        telebot.types.BotCommand("ayuda", "La presente ayuda")
+        ])
     print('    Iniciando el BOT')
-    ##bot.infinity_polling()
     hilo_bot = threading.Thread(name="hilo_bot", target=recibir_mensajes)
     hilo_bot.start()
     hilo_bot = threading.Thread(name="hilo_bot", target=activar_schedule)
