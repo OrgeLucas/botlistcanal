@@ -313,13 +313,16 @@ def Send_lo_de_esta_fecha_horaF1(message): #ejemplo1: 05-05-2022 02 ejemplo2: 30
 
 
 def eliminarconfiguracionF0(message):
+    if message.text == "/abortar":
+        ayuda1(message)
+    else:
         markup = telebot.types.ForceReply()
-        msgP = bot.send_message(message.chat.id, "Envíe su código para configuracion.", reply_markup=markup )
+        msgP = bot.send_message(message.chat.id, "Envíe su código para configuracion, o /abortar para terminar.", reply_markup=markup )
         bot.register_next_step_handler(msgP, eliminarconfiguracionF1)
 def eliminarconfiguracionF1(message):
     if not message.text == "Tosim": 
         markup = telebot.types.ForceReply()
-        msgP = bot.send_message(message.chat.id, "ERROR: Debes indicar un código correcto. Inténtelo nuevamente.")
+        msgP = bot.send_message(message.chat.id, "ERROR: Debes indicar un código correcto. Inténtelo nuevamente, o /abortar para terminar.")
         bot.register_next_step_handler(msgP, eliminarconfiguracionF0) #si no es un número preguntar vecesXdias
     else:
         markup = telebot.types.ForceReply()
@@ -422,13 +425,16 @@ def borrarUnaLineaEnTXT():
   
         
 def eliminarcanalF0(message):
+    if message.text == "/abortar":
+        ayuda1(message)
+    else:
         markup = telebot.types.ForceReply()
-        msgP = bot.send_message(message.chat.id, "Envíe su código para eliminarcanal.", reply_markup=markup )
+        msgP = bot.send_message(message.chat.id, "Envíe su código para eliminarcanal, o /abortar para terminar", reply_markup=markup )
         bot.register_next_step_handler(msgP, eliminarcanalF1)
 def eliminarcanalF1(message):
     if not message.text == "Tosim": 
         markup = telebot.types.ForceReply()
-        msgP = bot.send_message(message.chat.id, "ERROR: Debes indicar un código correcto. Inténtelo nuevamente.")
+        msgP = bot.send_message(message.chat.id, "ERROR: Debes indicar un código correcto. Inténtelo nuevamente, o /abortar para terminar")
         bot.register_next_step_handler(msgP, eliminarcanalF0) #si no es un número preguntar vecesXdias
     else:
         #PersonaGrupoCanal.txt
@@ -459,13 +465,16 @@ def preguntar_persona_Grupo_Canal_eliminar(message):
 
         
 def bajartxtF0(message):
+    if message.text == "/abortar":
+        ayuda1(message)
+    else:
         markup = telebot.types.ForceReply()
-        msgP = bot.send_message(message.chat.id, "Envíe su código de bajartxt.", reply_markup=markup )
+        msgP = bot.send_message(message.chat.id, "Envíe su código de bajartxt, o /abortar para terminar", reply_markup=markup )
         bot.register_next_step_handler(msgP, bajartxtF1)
 def bajartxtF1(message):
     if not message.text == "Tosim": 
         markup = telebot.types.ForceReply()
-        msgP = bot.send_message(message.chat.id, "ERROR: Debes indicar un código correcto. Inténtelo nuevamente.")
+        msgP = bot.send_message(message.chat.id, "ERROR: Debes indicar un código correcto. Inténtelo nuevamente, o /abortar para terminar")
         bot.register_next_step_handler(msgP, bajartxtF0) #si no es un número preguntar vecesXdias
     else:
         files1 = ['mensaje', 'configuraciones','schedule', 'schedule_temp', 'schedule_schedule', 'PersonaGrupoCanal']
@@ -483,13 +492,16 @@ def bajartxtF1(message):
         bot.send_message(mi_chat_id, "Archivos descargados, Envie el comndo /start ó /alta para crer configuración nueva.")
         
 def resetF0(message):
+    if message.text == "/abortar":
+        ayuda1(message)
+    else:
         markup = telebot.types.ForceReply()
-        msgP = bot.send_message(message.chat.id, "Envíe su código de RESETN.", reply_markup=markup )
+        msgP = bot.send_message(message.chat.id, "Envíe su código de RESET, o /abortar para terminar.", reply_markup=markup )
         bot.register_next_step_handler(msgP, resetF1)
 def resetF1(message):
     if not message.text == "Tosim": 
         markup = telebot.types.ForceReply()
-        msgP = bot.send_message(message.chat.id, "ERROR: Debes indicar un código correcto. Inténtelo nuevamente.")
+        msgP = bot.send_message(message.chat.id, "ERROR: Debes indicar un código correcto. Inténtelo nuevamente, o /abortar para terminar.")
         bot.register_next_step_handler(msgP, resetF0) #si no es un número preguntar vecesXdias
     else:
         with open(path1 + 'configuraciones.txt','w') as f:
@@ -1323,9 +1335,9 @@ print('   Sub Final')
 def activar_schedule():
     print("     SCHEDULE INICIADO...")
     #schedule.every().day.at(HORA_UNICA).do(report)
-    schedule.every().day.at("21:40").do(report_fecha_vence)
-    schedule.every().day.at("21:34").do(report)#server +4
-    schedule.every().day.at("19:18").do(report)#local +4
+    #schedule.every().day.at("21:40").do(report_fecha_vence)
+    ##chedule.every().day.at("21:34").do(report)#server +4
+    #schedule.every().day.at("19:18").do(report)#local +4
     schedule.every().day.at("00:00").do(report)
     schedule.every().day.at("01:00").do(report)
     schedule.every().day.at("02:00").do(report)
