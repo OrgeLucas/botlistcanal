@@ -47,6 +47,10 @@ bot = telebot.TeleBot(TOKEN1)
 
 @bot.message_handler(content_types=["text"])
 def cmd_texto1(message):
+    if message.text == '/publicarboton': # Reenvia mensaje existente en nustro chat_id a ti mismo nuevamente.
+        markup = telebot.types.ForceReply()
+        msgP = bot.send_message(message.chat.id, "Envie los botones en el siguiente formato:\n Nombre * https://www.google.com \n \n Si desea un boton al lado del otro utilice el separador && \n Nombre1 - http://www.google.com && Nombre2 - http://www.yahoo.com \n \nSi desea un boton debajo del otro use la tecla entre \n Nombre1 - http://www.google.com \n Nombre2 - http://www.yahoo.com \n Luego enviar.", reply_markup=markup)
+        bot.register_next_step_handler(msgP, Send_botones) 
     if message.text[0:6] == '/idmsg': # Reenvia mensaje existente en nustro chat_id a ti mismo nuevamente.
         #venceconfig
         Id_MSG_numero(message)
@@ -186,6 +190,476 @@ def cmd_texto1(message):
             ##Correr_def = cmd_publicar(message) ##pass ##bot.send_message(message.chat.id, "publicaciones")
     else:
         Correr_def = cmd_publicar(message)
+
+def Send_botones(message):
+    clave = {  } 
+    idboton = 0
+    capboton = {  } 
+    link = {  } 
+    nombreboton = ""
+    urllink = ""
+    #claveboton = ""
+    fila = 0
+    inicio_capboton = 0
+    inicio_link = 0
+    fin_capboton = 0
+    fin_link = 0
+    duo = ""
+    trio = ""
+    cuarteto = ""
+    cadena = ""
+    nuevo_boton = "no"
+    total_fila = 0
+    total_idboton = 0
+    total_cadena = 0
+    #clave[fila]["claveboton"] = ""
+    filaboton = []
+    link[fila] = {  } 
+    capboton[fila] = {  } 
+    #link_arr = [[][]]# [[fila][idboton]]= {  } 
+    capboton_arr = []#[[fila][idboton]] = {  } 
+    #link = [[fila][idboton]["urllink"] = ""
+    #capboton[fila][idboton]["nombreboton"] = ""
+    cadena = message.text
+    ##print(message.text)
+    ##print(".......................")
+    # if "\n" in cadena:
+        # ##print(" tiene" + )
+
+    i = 0
+    total_cadena = len(cadena)
+    markup = InlineKeyboardMarkup()
+    for i in range(total_cadena+1):
+        if i == 0:
+            inicio_capboton = 0
+        duo = cadena[i:i+2] #duo == "\n":
+        trio = cadena[i:i+3] #if trio == " * ":
+        cuarteto = cadena[i:i+4] #cuarteto == " ** ":
+        ##print("  duo:" + duo + "[")
+        ##print("  trio:" + trio + "[") 
+        ##print("  cuarteto:" + cuarteto + "[") 
+
+        if trio == " * ":
+            fin_capboton = i
+            inicio_link = i + 3
+            ##print("  fila: " + str(fila))
+            ##print(" idboton: " + str(idboton))
+            ##print(" inicio_capboton: " + str(inicio_capboton))
+            ##print(" fin_capboton: " + str(fin_capboton))
+            ##print(" cadena: " + str(cadena[inicio_capboton:fin_capboton]))
+            #capboton[fila][idboton]["nombreboton"] = cadena[inicio_capboton:fin_capboton]
+            nombreboton = cadena[inicio_capboton:fin_capboton]
+
+
+            ##print("  fila: " + str(fila) + " idboton: " + str(idboton) + " nombreBoton: " + str(capboton_arr))#capboton[fila][idboton]["nombreboton"]))
+            #clave[fila]["claveboton"]+= " * "
+            ##print("\n  arr :\n " + str(capboton_arr))
+        if duo.find("\n") > 0: # == "\n":
+            #link[fila][idboton]["urllink"] = cadena[inicio_link:i+1]
+            urllink = cadena[inicio_link:i]
+            capboton = [fila, idboton, nombreboton, urllink]
+            #filaboton = [fila, idboton] 
+            #capboton_arr.append(filaboton)
+            capboton_arr.append(capboton)
+           
+            ##print("  fila: " + str(fila) + " idboton: " + str(idboton) + " urllink : " + str(capboton_arr))#[fila][idboton]["urllink"]))
+            ##print("\n  arr :\n " + str(capboton_arr))
+            inicio_capboton = i + 2
+            fin_link = i - 1
+            fila+= 1
+            idboton+= 1
+            #clave[fila]["claveboton"]+= "\n"
+        if cuarteto == " ** ":
+            #link[fila][idboton]["urllink"]= cadena[inicio_link:i]
+            urllink = cadena[inicio_link:i-1]
+            #filaboton = [fila, idboton]
+            capboton = [fila, idboton, nombreboton, urllink]
+            #capboton_arr.append(filaboton)
+            capboton_arr.append(capboton)
+            inicio_capboton = i + 4
+            fin_link = i - 1
+            #fila+= 1
+            idboton+= 1
+            #clave[fila]["claveboton"]+= " ** "
+        ##print("  i-1:" + str(i) + "[") 
+        ##print("  total_cadena:" + str(total_cadena) + "[") 
+        if (total_cadena-1) == i-1:
+            ##print("  entro")
+            if duo == "\n" or cuarteto == " ** ":
+                pass
+            else:
+                ##print("  entro222")
+                #link[fila][idboton]["urllink"] = cadena[inicio_link:i]
+                urllink = cadena[inicio_link:i]
+                #filaboton = [fila, idboton]
+                capboton = [fila, idboton, nombreboton, urllink]
+                #capboton_arr.append(filaboton)
+                capboton_arr.append(capboton)
+
+                ##print("  fila: " + str(fila) + " idboton: " + str(idboton) + " urllink : " + str(capboton_arr))#link[fila][idboton]["urllink"]))
+                fin_link = i - 1
+                ##print("\n  arr :\n " + str(capboton_arr))
+                ##print("\n  arr :\n " + str(len(capboton_arr)))
+                ##print("\n  0.0 :\n " + str(capboton_arr[0][0]))#fila
+                ##print("\n  0.1 :\n " + str(capboton_arr[0][1]))# boton
+                ##print("\n  1.0 :\n " + str(capboton_arr[1][0]))#nombre
+                ##print("\n  1.1 :\n " + str(capboton_arr[1][1]))# link
+                ##print("\n  2.0 :\n " + str(capboton_arr[2][0]))#fila
+                ##print("\n  2.1 :\n " + str(capboton_arr[2][1]))# boton
+                ###print("\n  3.0 :\n " + str(capboton_arr[3][0]))#nombre
+                ###print("\n  3.1 :\n " + str(capboton_arr[3][1]))# link
+                ###print("\n  4.0 :\n " + str(capboton_arr[4][0]))#fila
+                ###print("\n  4.1 :\n " + str(capboton_arr[4][1]))# boton
+                ###print("\n  5.0 :\n " + str(capboton_arr[5][0]))#nombre
+                ###print("\n  5.1 :\n " + str(capboton_arr[5][1]))# link
+                
+                ##print("\n  =0 :\n " + str(capboton_arr[0]))#
+                ##print("\n  =1 :\n " + str(capboton_arr[1]))#
+                ##print("\n  =2 :\n " + str(capboton_arr[2]))#
+                ###print("\n  =3 :\n " + str(capboton_arr[3]))# 
+                ###print("\n  =4 :\n " + str(capboton_arr[4]))#
+                ###print("\n  =5 :\n " + str(capboton_arr[5]))# 
+                ###print("\n  3.0 :\n " + str(capboton_arr[3][0]))#nombre
+                ###print("\n  3.1 :\n " + str(capboton_arr[3][1]))# link
+                ###print("\n  4.0 :\n " + str(capboton_arr[4][0]))#fila
+                ###print("\n  4.1 :\n " + str(capboton_arr[4][1]))# boton
+                ###print("\n  5.0 :\n " + str(capboton_arr[5][0]))#nombre
+                ###print("\n  5.1 :\n " + str(capboton_arr[5][1]))# link
+    #print("\n  arr :\n " + str(capboton_arr))
+    i_fila = 0
+    i_idboton = 0
+    fila_boton = []
+    contar_botones_por_fila = {  }
+    contar_botones_por_fila[i_fila] = {  }
+    #contar_botones_por_fila[0] = 0
+    total_fila_arr = len(capboton_arr)
+    #step = 2
+    #contar_botones_por_fila.append(0) 
+    var = 0
+    cont_boton = 0
+    filax1 = 0
+    for i_fila_arr in range(total_fila_arr):#, step):
+        
+        if capboton_arr[i_fila_arr][0] == var:
+            cont_boton+= 1
+            contar_botones_por_fila[filax1] = cont_boton
+        	
+        else:
+            filax1+= 1
+            cont_boton = 1
+            contar_botones_por_fila[filax1] = cont_boton
+            var = capboton_arr[i_fila_arr][0]
+    #print("  botones fila: " + str(contar_botones_por_fila))        
+
+    ##print("   fgffgg")
+    ##print("  botones fila: " + str(0) + " cant boton: " + str(contar_botones_por_fila[0]))
+    ##print("  botones fila: " + str(1) + " cant boton: " + str(contar_botones_por_fila[1]))
+    i_fila = 1
+    ttt = len(contar_botones_por_fila)
+    fx = 0
+    for i_fila in range(ttt):
+        if i_fila == 0:
+            fx = 0
+        ##print("  botones fila: " + str(i_fila) + " cant boton: " + str(contar_botones_por_fila[i_fila]))
+        if contar_botones_por_fila[i_fila] == 1:
+            
+            
+            nombre1 = capboton_arr[fx][2]
+            Url1 = capboton_arr[fx][3]
+            button1 = InlineKeyboardButton(nombre1,url=f'{Url1}')
+            markup.add(button1)
+            fx+= 1
+            nombre1 = ""
+            Url1 = ""
+            button1 = ""
+                
+        if contar_botones_por_fila[i_fila] == 2:
+            ##print("  botones fila: " + str(i_fila) + " cant boton: " + str(contar_botones_por_fila[fx]))
+            nombre1 = capboton_arr[fx][2]
+            Url1 = capboton_arr[fx][3]
+            button1 = InlineKeyboardButton(nombre1,url=f'{Url1}')
+            fx+= 1
+            nombre2 = capboton_arr[fx][2]
+            Url2 = capboton_arr[fx][3]
+            button2 = InlineKeyboardButton(nombre2,url=f'{Url2}')
+            markup.add(button1, button2)       
+            fx+= 1
+            nombre1 = ""
+            Url1 = ""
+            button1 = ""
+            nombre2 = ""
+            Url2 = ""
+            button2 = ""
+                
+        if contar_botones_por_fila[i_fila]== 3:
+            
+            nombre1 = capboton_arr[fx][2]
+            Url1 = capboton_arr[fx][3]
+            button1 = InlineKeyboardButton(nombre1,url=f'{Url1}')
+            fx+= 1
+            nombre2 = capboton_arr[fx][2]
+            Url2 = capboton_arr[fx][3]
+            button2 = InlineKeyboardButton(nombre2,url=f'{Url2}')
+            fx+= 1
+            nombre3 = capboton_arr[fx][2]
+            Url3 = capboton_arr[fx][3]
+            button3 = InlineKeyboardButton(nombre3,url=f'{Url3}')
+            markup.add(button1, button2, button3)
+            fx+= 1
+            nombre1 = ""
+            Url1 = ""
+            button1 = ""
+            nombre2 = ""
+            Url2 = ""
+            button2 = ""
+            nombre3 = ""
+            Url3 = ""
+            button3 = ""
+                
+        if contar_botones_por_fila[i_fila] == 4:
+
+            nombre1 = capboton_arr[fx][2]
+            Url1 = capboton_arr[fx][3]
+            button1 = InlineKeyboardButton(nombre1,url=f'{Url1}')
+            fx+= 1
+            nombre2 = capboton_arr[fx][2]
+            Url2 = capboton_arr[fx][3]
+            button2 = InlineKeyboardButton(nombre2,url=f'{Url2}')
+            fx+= 1
+            nombre3 = capboton_arr[fx][2]
+            Url3 = capboton_arr[fx][3]
+            button3 = InlineKeyboardButton(nombre3,url=f'{Url3}')
+            fx+= 1
+
+            nombre4 = capboton_arr[fx][2]
+            Url4 = capboton_arr[fx][3]
+            button4 = InlineKeyboardButton(nombre4,url=f'{Url4}')
+            markup.add(button1, button2, button3, button4)
+            fx+= 1
+            nombre1 = ""
+            Url1 = ""
+            button1 = ""
+            nombre2 = ""
+            Url2 = ""
+            button2 = ""
+            nombre3 = ""
+            Url3 = ""
+            button3 = ""                   
+            nombre4 = ""
+            Url4 = ""
+            button4 = "" 
+                
+        if contar_botones_por_fila[i_fila] == 5:
+            nombre1 = capboton_arr[fx][2]
+            Url1 = capboton_arr[fx][3]
+            button1 = InlineKeyboardButton(nombre1,url=f'{Url1}')
+            fx+= 1
+            nombre2 = capboton_arr[fx][2]
+            Url2 = capboton_arr[fx][3]
+            button2 = InlineKeyboardButton(nombre2,url=f'{Url2}')
+            fx+= 1
+            nombre3 = capboton_arr[fx][2]
+            Url3 = capboton_arr[fx][3]
+            button3 = InlineKeyboardButton(nombre3,url=f'{Url3}')
+            fx+= 1
+
+            nombre4 = capboton_arr[fx][2]
+            Url4 = capboton_arr[fx][3]
+            button4 = InlineKeyboardButton(nombre4,url=f'{Url4}')
+            fx+= 1
+
+            nombre5 = capboton_arr[fx][2]
+            Url5 = capboton_arr[fx][3]
+            button5 = InlineKeyboardButton(nombre5,url=f'{Url5}')
+            markup.add(button1, button2, button3, button4, button5)
+            fx+= 1
+            nombre1 = ""
+            Url1 = ""
+            button1 = ""
+            nombre2 = ""
+            Url2 = ""
+            button2 = ""
+            nombre3 = ""
+            Url3 = ""
+            button3 = ""                   
+            nombre4 = ""
+            Url4 = ""
+            button4 = "" 
+            nombre5 = ""
+            Url5 = ""
+            button5 = "" 
+                
+        if contar_botones_por_fila[i_fila] == 6:
+            nombre1 = capboton_arr[fx][2]
+            Url1 = capboton_arr[fx][3]
+            button1 = InlineKeyboardButton(nombre1,url=f'{Url1}')
+            fx+= 1
+            nombre2 = capboton_arr[fx][2]
+            Url2 = capboton_arr[fx][3]
+            button2 = InlineKeyboardButton(nombre2,url=f'{Url2}')
+            fx+= 1
+            nombre3 = capboton_arr[fx][2]
+            Url3 = capboton_arr[fx][3]
+            button3 = InlineKeyboardButton(nombre3,url=f'{Url3}')
+            fx+= 1
+
+            nombre4 = capboton_arr[fx][2]
+            Url4 = capboton_arr[fx][3]
+            button4 = InlineKeyboardButton(nombre4,url=f'{Url4}')
+            fx+= 1
+
+            nombre5 = capboton_arr[fx][2]
+            Url5 = capboton_arr[fx][3]
+            button5 = InlineKeyboardButton(nombre5,url=f'{Url5}')
+            fx+= 1
+
+            nombre6 = capboton_arr[fx][2]
+            Url6 = capboton_arr[fx][3]
+            button6 = InlineKeyboardButton(nombre6,url=f'{Url6}')
+            markup.add(button1, button2, button3, button4, button5, button6)
+            fx+= 1
+            nombre1 = ""
+            Url1 = ""
+            button1 = ""
+            nombre2 = ""
+            Url2 = ""
+            button2 = ""
+            nombre3 = ""
+            Url3 = ""
+            button3 = ""                   
+            nombre4 = ""
+            Url4 = ""
+            button4 = "" 
+            nombre5 = ""
+            Url5 = ""
+            button5 = ""                     
+            nombre6 = ""
+            Url6 = ""
+            button6 = ""   
+                
+        if contar_botones_por_fila[i_fila] == 7:
+            nombre1 = capboton_arr[fx][2]
+            Url1 = capboton_arr[fx][3]
+            button1 = InlineKeyboardButton(nombre1,url=f'{Url1}')
+            fx+= 1
+            nombre2 = capboton_arr[fx][2]
+            Url2 = capboton_arr[fx][3]
+            button2 = InlineKeyboardButton(nombre2,url=f'{Url2}')
+            fx+= 1
+            nombre3 = capboton_arr[fx][2]
+            Url3 = capboton_arr[fx][3]
+            button3 = InlineKeyboardButton(nombre3,url=f'{Url3}')
+             
+            fx+= 1
+            nombre4 = capboton_arr[fx][2]
+            Url4 = capboton_arr[fx][3]
+            button4 = InlineKeyboardButton(nombre4,url=f'{Url4}')
+            
+            fx+= 1
+            nombre5 = capboton_arr[fx][2]
+            Url5 = capboton_arr[fx][3]
+            button5 = InlineKeyboardButton(nombre5,url=f'{Url5}')
+            
+            fx+= 1
+            nombre6 = capboton_arr[fx][2]
+            Url6 = capboton_arr[fx][3]
+            button6 = InlineKeyboardButton(nombre6,url=f'{Url6}')
+            
+            fx+= 1
+            nombre7 = capboton_arr[fx][2]
+            Url7 = capboton_arr[fx][3]
+            button7 = InlineKeyboardButton(nombre7,url=f'{Url7}')
+            markup.add(button1, button2, button3, button4, button5, button6, button7)
+            fx+= 1
+            nombre1 = ""
+            Url1 = ""
+            button1 = ""
+            nombre2 = ""
+            Url2 = ""
+            button2 = ""
+            nombre3 = ""
+            Url3 = ""
+            button3 = ""                   
+            nombre4 = ""
+            Url4 = ""
+            button4 = "" 
+            nombre5 = ""
+            Url5 = ""
+            button5 = ""                     
+            nombre6 = ""
+            Url6 = ""
+            button6 = ""                       
+            nombre7 = ""
+            Url7 = ""
+            button7 = ""    
+                
+        if contar_botones_por_fila[i_fila] == 8:
+            nombre1 = capboton_arr[fx][2]
+            Url1 = capboton_arr[fx][3]
+            button1 = InlineKeyboardButton(nombre1,url=f'{Url1}')
+            fx+= 1
+            nombre2 = capboton_arr[fx][2]
+            Url2 = capboton_arr[fx][3]
+            button2 = InlineKeyboardButton(nombre2,url=f'{Url2}')
+            fx+= 1
+            nombre3 = capboton_arr[fx][2]
+            Url3 = capboton_arr[fx][3]
+            button3 = InlineKeyboardButton(nombre3,url=f'{Url3}')
+              
+            fx+= 1
+            nombre4 = capboton_arr[fx][2]
+            Url4 = capboton_arr[fx][3]
+            button4 = InlineKeyboardButton(nombre4,url=f'{Url4}')
+            
+            fx+= 1
+            nombre5 = capboton_arr[fx][2]
+            Url5 = capboton_arr[fx][3]
+            button5 = InlineKeyboardButton(nombre5,url=f'{Url5}')
+            fx+= 1
+
+            nombre6 = capboton_arr[fx][2]
+            Url6 = capboton_arr[fx][3]
+            button6 = InlineKeyboardButton(nombre6,url=f'{Url6}')
+            fx+= 1
+
+            nombre7 = capboton_arr[fx][2]
+            Url7 = capboton_arr[fx][3]
+            button7 = InlineKeyboardButton(nombre7,url=f'{Url7}')
+            fx+= 1
+
+            nombre8 = capboton_arr[fx][2]
+            Url8 = capboton_arr[fx][3]
+            button8 = InlineKeyboardButton(nombre8,url=f'{Url8}')
+            markup.add(button1, button2, button3, button4, button5, button6, button7, button8)
+            fx+= 1
+            nombre1 = ""
+            Url1 = ""
+            button1 = ""
+            nombre2 = ""
+            Url2 = ""
+            button2 = ""
+            nombre3 = ""
+            Url3 = ""
+            button3 = ""                   
+            nombre4 = ""
+            Url4 = ""
+            button4 = "" 
+            nombre5 = ""
+            Url5 = ""
+            button5 = ""                     
+            nombre6 = ""
+            Url6 = ""
+            button6 = ""                       
+            nombre7 = ""
+            Url7 = ""
+            button7 = ""                       
+            nombre8 = ""
+            Url8 = ""
+            button8 = ""     
+                
+        if contar_botones_por_fila[i_fila] > 8:
+            pass
+    bot.send_message(message.chat.id,'Clic en el boton para contactarme..',reply_markup=markup)
 
 
 
@@ -402,27 +876,27 @@ def preguntar_numero_configuracion_eliminar(message):
         bot.send_message(mi_chat_id, "El número de configuración: " + clave4 + " NO fue eliminado!, Envie el comndo /start 0 /alta para crer configuración nueva.")
     if Encontrado == "No":
         bot.send_message(mi_chat_id, "El número de configuración: " + clave4 + " NO fue encontrado!.")
-def borrarUnaLineaEnTXT():
-    with open(path1 + "schedule.txt", 'r', encoding="utf8") as fsched:
-        LineasDefsched = fsched.readlines()
-        fsched.seek(0)
-    fsched.close
+# def borrarUnaLineaEnTXT():
+    # with open(path1 + "schedule.txt", 'r', encoding="utf8") as fsched:
+        # LineasDefsched = fsched.readlines()
+        # fsched.seek(0)
+    # fsched.close
 
-    pos = int(ik)
-    LineasDefsched = LineasDefsched[pos]
-    LineasDefsched.remove(LineasDefsched)
-    pos = int(ik+1)
-    LineasDefsched = LineasDefsched[pos]
-    LineasDefsched.remove(LineasDefsched)
-    pos = int(ik+1)
-    LineasDefsched = LineasDefsched[pos]
-    LineasDefsched.remove(LineasDefsched)
-    with open(path1 + "schedule.txt", 'w', encoding="utf8") as fsched:
-        LineasDefsched = fsched.readlines()
-        fsched.seek(0)
-        for linea in lineas:
-           fsched.write(linea) 
-    fsched.close    
+    # pos = int(ik)
+    # LineasDefsched = LineasDefsched[pos]
+    # LineasDefsched.remove(LineasDefsched)
+    # pos = int(ik+1)
+    # LineasDefsched = LineasDefsched[pos]
+    # LineasDefsched.remove(LineasDefsched)
+    # pos = int(ik+1)
+    # LineasDefsched = LineasDefsched[pos]
+    # LineasDefsched.remove(LineasDefsched)
+    # with open(path1 + "schedule.txt", 'w', encoding="utf8") as fsched:
+        # LineasDefsched = fsched.readlines()
+        # fsched.seek(0)
+        # for linea in lineas:
+           # fsched.write(linea) 
+    # fsched.close    
  
  
   
@@ -813,6 +1287,7 @@ def report_fecha_vence(message):
                     texto+= f'<code>FechaFin.....:</code> {configuraciones[mi_chat_id]["FechaFin"]}'
                     texto+= f'<code>FechaFin.....:</code> {configuraciones[mi_chat_id]["Numero"]}'
                     msg_mostrarX = bot.send_message(mi_chat_id, texto, parse_mode="HTML")
+                    msg_mostrarX = bot.send_message(mi_chat_id, Recorerlist_mensajes[7])
                 #ik+= 2
     fsched.close
 
@@ -1338,9 +1813,10 @@ def ayuda1(message):
     texto+= "/sendfechahora : Para enviar ahora todas configuraciones (pasadas, actuales o futuras) que cumplan con la fecha y la horas..\n"
     texto+= "/bajartxt : Para bajar las txt de configuraciones guardadas.\n"
     texto+= "/idmsg mas # Reenvia mensaje existente en nustro chat_id a ti mismo nuevamente.\n"
+    texto+= "/publicarboton Para publicar botones.\n"
     texto+= "/ayuda : La presente ayuda\n"
     texto+= "/help : La presente ayuda\n"
-    #texto+= "/horau : enviar publicaciones a una hora y minutos determinados\n"
+    texto+= "/publicarboton : enviar botones con enlaces\n"
     mensaje = bot.send_message(mi_chat_id, texto, parse_mode="HTML")    
         
 print('   Sub Final')
@@ -1385,7 +1861,7 @@ def recibir_mensajes():
 if __name__ == '__main__':
     bot.set_my_commands([
         telebot.types.BotCommand("alta", "Para crear nueva configuración"),
-        telebot.types.BotCommand("alta", "Para crear nueva configuración"),
+        telebot.types.BotCommand("publicarboton", "Para publicar botones"),
         telebot.types.BotCommand("agregarcanal", "Agrega persona, grupo o canal a la lista de difusión"),
         telebot.types.BotCommand("eliminarcanal", "Elimina persona, grupo o canal de lista de difusión"),
         telebot.types.BotCommand("mostrarcanal", "Muestra lista de persona, grupo o canal para difusión"),
@@ -1397,6 +1873,7 @@ if __name__ == '__main__':
         telebot.types.BotCommand("sendfechahora", "Envia configuracionessegun fecha y la horas."),
         telebot.types.BotCommand("bajartxt", "Para bajar las txt de configuraciones guardadas."),
         telebot.types.BotCommand("idmsg", "Más Reenvia mensaje en nustro chat a ti mismo nuevamente."),
+        telebot.types.BotCommand("publicarboton", "Enviar botones con enlaces\n"),
         telebot.types.BotCommand("ayuda", "La presente ayuda")
         ])
     print('    Iniciando el BOT')
