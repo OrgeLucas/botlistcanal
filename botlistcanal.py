@@ -1186,6 +1186,7 @@ def verconfiguraciones(message):
                         #bot.send_message(mi_chat_id, str(ListaDeMensajesAsociados) + '\n' + str(Recorerlist_mensajesM), parse_mode="HTML")
                 Lista_mensaje = LineasDefsched[ik]
                 Recorerlist_mensajes = eval(Lista_mensaje)
+                print("  lista leida:" + str(Recorerlist_mensajes))
                 configuraciones[mi_chat_id]["nombreCliente"] = Recorerlist_mensajes[0]
                 configuraciones[mi_chat_id]["nombreGestorCliente"] = Recorerlist_mensajes[1]
                 configuraciones[mi_chat_id]["VecesXdia"] = Recorerlist_mensajes[2]
