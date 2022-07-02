@@ -36,7 +36,7 @@ cx = 0
 TOKEN1 = ''
 mi_chat_id = ''
 mi_chad_id_canal = ''
-
+ghtyygt = 10
 TOKEN1 = os.environ['TOKEN']
 mi_chat_id = os.environ['mi_chat_id']
 mi_chad_id_canal =  os.environ['mi_chad_id_canal']
