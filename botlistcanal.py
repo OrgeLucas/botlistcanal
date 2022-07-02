@@ -33,6 +33,7 @@ textom = []
 configuraciones = {  }
 lineas_enviar_mensajes = []
 cx = 0
+bhtvgrr=567
 TOKEN1 = ''
 mi_chat_id = ''
 mi_chad_id_canal = ''
