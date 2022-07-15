@@ -45,8 +45,7 @@ path1 = os.path.abspath(os.getcwd()) + '/'
 bot = telebot.TeleBot(TOKEN1)
 #este es otro canal
 ##t.me/promoorge
-podert = 5678
-podert = 5678 + 67
+
 @bot.message_handler(content_types=["text"])
 def cmd_texto1(message):
     if message.text == '/publicarboton': # Reenvia mensaje existente en nustro chat_id a ti mismo nuevamente.
