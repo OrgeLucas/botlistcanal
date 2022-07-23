@@ -41,11 +41,18 @@ ghtyygt = 10
 TOKEN1 = os.environ['TOKEN']
 mi_chat_id = os.environ['mi_chat_id']
 mi_chad_id_canal =  os.environ['mi_chad_id_canal']
+
 path1 = os.path.abspath(os.getcwd()) + '/'
 bot = telebot.TeleBot(TOKEN1)
 #este es otro canal
 ##t.me/promoorge
-
+Agregarlo = ""
+hora_zona = 0
+messageww = ""
+#`para sumar 4 horas a una f♫cha
+#now = datetime.now()
+#new_date = now - timedelta(hours = 4)
+#mensaje = bot.send_message(mi_chat_id, "Ahora: " + str(now) + " + 4 horas :" + str(new_date)) 
 @bot.message_handler(content_types=["text"])
 def cmd_texto1(message):
     if message.text == '/publicarboton': # Reenvia mensaje existente en nustro chat_id a ti mismo nuevamente.
@@ -93,9 +100,16 @@ def cmd_texto1(message):
     	 vgvg = mostrarcanal(message)
 
     if message.text == '/agregarcanal': #PersonaGrupoCanal.txt
-        markup = telebot.types.ForceReply()
-        msgP = bot.send_message(mi_chat_id, "Envie el número de persona, Grupo o Canal para agregarlo.", reply_markup=markup )
-        bot.register_next_step_handler(msgP, preguntar_persona_Grupo_Canal_agregar)
+        # markup = telebot.types.ForceReply()
+        # msgP = bot.send_message(mi_chat_id, "Envie el número de persona, Grupo o Canal para agregarlo.", reply_markup=markup )
+        # bot.register_next_step_handler(msgP, preguntar_persona_Grupo_Canal_agregar)
+        vgvg1 = preguntar_persona_Grupo_Canal_agregar(message)
+    if message.text == '/cambiar_hora_zona': #PersonaGrupoCanal.txt
+        # markup = telebot.types.ForceReply()
+        # msgP = bot.send_message(mi_chat_id, "Envie el número de persona, Grupo o Canal para agregarlo.", reply_markup=markup )
+        # bot.register_next_step_handler(msgP, preguntar_persona_Grupo_Canal_agregar)
+        vgvg1 = preguntar_persona_Grupo_Canal_agregar(message)        
+        
     if message.text == '/eliminarcanal': #PersonaGrupoCanal.txt
         eliminarcanalF0(message)
 
@@ -113,7 +127,12 @@ def cmd_texto1(message):
         estado = "alta"
         guardar_estado(estado)
         Correr_def = cmd_alta(message)
+    
+    if message.text == '/verhorazona':
+        verhora_zona(message)
         
+    if message.text == '/cambiarhorazona':
+        cambiar_hora_zona_f0(message)               
         
     if message.text == '/start':
         estado = "start"
@@ -129,16 +148,24 @@ def cmd_texto1(message):
     if message.text == '/finalizar':
         estado = "finlizar"
         guardar_estado(estado)
-        now = datetime.now()
-        today = date.today()
+        #now = datetime.now()
+        #today = date.today()
+        now1 = datetime.now()
+        hora_zona = hora_zonaf(messageww)
+        today = now1 - timedelta(hours = hora_zona)
         #Correr_def = cmd_finlizar(message)
         # verificar que existe  mensajes 
         if leer_mensaje(message):
             if MostrarUltimaConfiguracionDesde_txt(message):
                 # leer las configuraciones guardaa y gurdarlos en schedule en formato de lista que luego leere con eval
                 with open(path1 + "configuraciones.txt", 'a', encoding="utf8") as fnumero:
-                    today = date.today()
-                    fnumero.write(str(today.day) + "." + str(today.month) + "." + str(today.year) + "." + str(now.hour) + "." + str(now.second) + '\n')
+                    #today = date.today()
+                    now1 = datetime.now()
+                    #new_date = now - timedelta(hours = 4)
+                    hora_zona = hora_zonaf(messageww)
+                    today = now1 - timedelta(hours = hora_zona)
+                    
+                    fnumero.write(str(today.day) + "." + str(today.month) + "." + str(today.year) + "." + str(today.hour) + "." + str(today.second) + '\n')
                 fnumero.close
                 ################configuraciones[message.chat.id]["Numero"] = 
                 with open(path1 + "configuraciones.txt", 'r', encoding="utf8") as f1:
@@ -243,18 +270,9 @@ def Send_botones(message):
         if trio == " * ":
             fin_capboton = i
             inicio_link = i + 3
-            ##print("  fila: " + str(fila))
-            ##print(" idboton: " + str(idboton))
-            ##print(" inicio_capboton: " + str(inicio_capboton))
-            ##print(" fin_capboton: " + str(fin_capboton))
-            ##print(" cadena: " + str(cadena[inicio_capboton:fin_capboton]))
-            #capboton[fila][idboton]["nombreboton"] = cadena[inicio_capboton:fin_capboton]
+
             nombreboton = cadena[inicio_capboton:fin_capboton]
 
-
-            ##print("  fila: " + str(fila) + " idboton: " + str(idboton) + " nombreBoton: " + str(capboton_arr))#capboton[fila][idboton]["nombreboton"]))
-            #clave[fila]["claveboton"]+= " * "
-            ##print("\n  arr :\n " + str(capboton_arr))
         if duo.find("\n") > 0: # == "\n":
             #link[fila][idboton]["urllink"] = cadena[inicio_link:i+1]
             urllink = cadena[inicio_link:i]
@@ -299,34 +317,7 @@ def Send_botones(message):
 
                 ##print("  fila: " + str(fila) + " idboton: " + str(idboton) + " urllink : " + str(capboton_arr))#link[fila][idboton]["urllink"]))
                 fin_link = i - 1
-                ##print("\n  arr :\n " + str(capboton_arr))
-                ##print("\n  arr :\n " + str(len(capboton_arr)))
-                ##print("\n  0.0 :\n " + str(capboton_arr[0][0]))#fila
-                ##print("\n  0.1 :\n " + str(capboton_arr[0][1]))# boton
-                ##print("\n  1.0 :\n " + str(capboton_arr[1][0]))#nombre
-                ##print("\n  1.1 :\n " + str(capboton_arr[1][1]))# link
-                ##print("\n  2.0 :\n " + str(capboton_arr[2][0]))#fila
-                ##print("\n  2.1 :\n " + str(capboton_arr[2][1]))# boton
-                ###print("\n  3.0 :\n " + str(capboton_arr[3][0]))#nombre
-                ###print("\n  3.1 :\n " + str(capboton_arr[3][1]))# link
-                ###print("\n  4.0 :\n " + str(capboton_arr[4][0]))#fila
-                ###print("\n  4.1 :\n " + str(capboton_arr[4][1]))# boton
-                ###print("\n  5.0 :\n " + str(capboton_arr[5][0]))#nombre
-                ###print("\n  5.1 :\n " + str(capboton_arr[5][1]))# link
-                
-                ##print("\n  =0 :\n " + str(capboton_arr[0]))#
-                ##print("\n  =1 :\n " + str(capboton_arr[1]))#
-                ##print("\n  =2 :\n " + str(capboton_arr[2]))#
-                ###print("\n  =3 :\n " + str(capboton_arr[3]))# 
-                ###print("\n  =4 :\n " + str(capboton_arr[4]))#
-                ###print("\n  =5 :\n " + str(capboton_arr[5]))# 
-                ###print("\n  3.0 :\n " + str(capboton_arr[3][0]))#nombre
-                ###print("\n  3.1 :\n " + str(capboton_arr[3][1]))# link
-                ###print("\n  4.0 :\n " + str(capboton_arr[4][0]))#fila
-                ###print("\n  4.1 :\n " + str(capboton_arr[4][1]))# boton
-                ###print("\n  5.0 :\n " + str(capboton_arr[5][0]))#nombre
-                ###print("\n  5.1 :\n " + str(capboton_arr[5][1]))# link
-    #print("\n  arr :\n " + str(capboton_arr))
+
     i_fila = 0
     i_idboton = 0
     fila_boton = []
@@ -677,12 +668,14 @@ def Send_lo_de_esta_fecha_horaF1(message): #ejemplo1: 05-05-2022 02 ejemplo2: 30
     ANO_t = Cadenap[6:10]
     HORA_t = Cadenap[11:13]
     fecha_t = Cadenap[0:10]
+    
     try:
         #print("   dia mes año y hora" + fechahora[0:2] + "-" + fechahora[3:5] + "-" + fechahora[6:9] + " " + Cadenap[11:13])
         DIA_vallido = int(DIA_t)
         MES_vallido = int(MES_t)
         ANO_vallido = int(ANO_t)
         HORA_vallido = int(HORA_t)
+        
         format = "%d-%m-%Y"
         #test_str = fecha_t
         res = True
@@ -722,25 +715,9 @@ def Send_lo_de_esta_fecha_horaF1(message): #ejemplo1: 05-05-2022 02 ejemplo2: 30
                     markup = telebot.types.ForceReply()
                     msgP = bot.send_message(message.chat.id, " ¿ERROR debe ser una hora válida entre 0 y 23 : \n¿Cual es la fecha (dia-mes-año 31-12-2022), un espacio y luego la hora para enviar ahora las publicaciones que cumplan con esa configuración.", reply_markup=markup)
                     bot.register_next_step_handler(msgP, Send_lo_de_esta_fecha_horaF0)  
-        #else:
-        # HoraValida = "NO"
-        # markup = telebot.types.ForceReply()
-        # msgP = bot.send_message(message.chat.id, "¿ERROR debe ser una hora válida entre 0 y 23 : \n¿Cual es la fecha (dia-mes-año 31-12-2022), un espacio y luego la hora para enviar ahora las publicaciones que cumplan con esa configuración.", reply_markup=markup)
-        # bot.register_next_step_handler(msgP, Send_lo_de_esta_fecha_horaF0)  
-        
+
         hora = HORA_vallido #Cadenap[11:13]
-        #print(hora)
-        #print(fechahora[0:2] + "-" + fechahora[3:5] + "-" + fechahora[6:9]) #+ " " + HORAS
-        #horax = int(Cadenap[11:13])
-        #DIA_vallido = int(DIA_t)
-        #MES_vallido = int(MES_t)
-        #ANO_vallido = int(ANO_t)
-        #HORA_vallido = int(HORA_t)
-        # DIA_t = Cadenap[0:2]
-        # MES_t = Cadenap[3:5]
-        # ANO_t = Cadenap[6:10]
-        # HORA_t = Cadenap[11:13]
-        # fecha_t = Cadenap[0:10]
+
         if hora > 9:
             HORAS = str(hora)
         else:
@@ -748,6 +725,7 @@ def Send_lo_de_esta_fecha_horaF1(message): #ejemplo1: 05-05-2022 02 ejemplo2: 30
         if FechaValida == "SI":
             #if 
             clave1 = fechahora[0:2] + "-" + fechahora[3:5] + "-" + fechahora[6:10] + " " + HORAS
+            
             linea = 0
             cx = 0
             Recorerlist_mensajes = []
@@ -760,33 +738,46 @@ def Send_lo_de_esta_fecha_horaF1(message): #ejemplo1: 05-05-2022 02 ejemplo2: 30
                         fcanal.seek(0)
                         ipgc = 0
                         for ipgc in range(len(canal_send)):
-                            Id_Canal_Send = canal_send[ipgc]
+                            #Id_Canal_Send = canal_send[ipgc]
+                            Linea_Canal_Send = canal_send[ipgc]
+                            largo_Linea_Canal_Send = len(canal_send[ipgc])
+                            provincia_send = Linea_Canal_Send[largo_Linea_Canal_Send-4:largo_Linea_Canal_Send]
+                            Id_Canal_Send = Linea_Canal_Send[0:largo_Linea_Canal_Send-4]
                             LineasDefsched = fsched.readlines()
                             fsched.seek(0)
+                            #bot.send_message(message.chat.id, "Envíe *" + provincia_send + "* canal *" + Id_Canal_Send + "*")
                             ik = 0
                             for ik in range(len(LineasDefsched)):
                                 if clave1 in LineasDefsched[ik]:
                                     Lista_mensaje = LineasDefsched[ik-1]
+                                    Recorerlist_SCHEDULE_x = LineasDefsched[ik-2]
+                                    Recorerlist_SCHEDULE_xY = eval(Recorerlist_SCHEDULE_x)
+                                    Tomar_Provincia = str(Recorerlist_SCHEDULE_xY[2])
                                     Recorerlist_mensajes = eval(Lista_mensaje)
+                                    #bot.send_message(message.chat.id, "Envíe schedule*" + Recorerlist_SCHEDULE_x + "* prov *" + #Tomar_Provincia + "*")
                                     iimsg = 0
-                                    for iimsg in Recorerlist_mensajes:
-                                        #print(" " + iimsg)
-                                        idCanal = int(Id_Canal_Send)
-                                        Idmsg = int(iimsg)
-                                        #print("   " + str(int(Id_Canal_Send)) + "  " + str(mi_chat_id) + " " + str(int(iimsg)))
-                                        try:
-                                            #msgP = bot.send_message(mi_chat_id, "  Mensajes: " + str(iimsg) + " Canal: " + str(Id_Canal_Send))
-                                            msgP = bot.forward_message(idCanal, mi_chat_id, Idmsg)
-                                            msgP = bot.send_message(mi_chat_id, "Mensage #: " + str(iimsg) + " enviado al canal:" + str(Id_Canal_Send))
-                                        except:
-                                            msgP = bot.send_message(mi_chat_id, "ERROR: Mensage #: " + str(iimsg) + " NO enviado al canal:" + str(Id_Canal_Send))
+                                    if Tomar_Provincia == "Tod" or Tomar_Provincia == provincia_send:
+                                        for iimsg in Recorerlist_mensajes:
+                                            #print(" " + iimsg)
+                                            idCanal = int(Id_Canal_Send)
+                                            Idmsg = int(iimsg)
+                                            #print("   " + str(int(Id_Canal_Send)) + "  " + str(mi_chat_id) + " " + str(int(iimsg)))
+                                            try:
+                                                #msgP = bot.send_message(mi_chat_id, "  Mensajes: " + str(iimsg) + " Canal: " + str(Id_Canal_Send))
+                                                msgP = bot.forward_message(idCanal, mi_chat_id, Idmsg)
+                                                msgP = bot.send_message(mi_chat_id, "Mensage #: " + str(iimsg) + " enviado al canal:" + str(Id_Canal_Send) + " Provincia:" + str(provincia_send))
+                                                
+                                            except:
+                                                msgP = bot.send_message(mi_chat_id, "ERROR: Mensage #: " + str(iimsg) + " NO enviado al canal:" + str(Id_Canal_Send) + " Provincia:" + str(provincia_send))
                     fcanal.close
                 fsched.close
+        #try:
+        #    pass
     except:
         #print("   dia mes año y hora" + fechahora[0:2] + "-" + fechahora[3:5] + "-" + fechahora[6:9] + " " + Cadenap[11:13])
         FechaValida = "NO"
         markup = telebot.types.ForceReply()
-        msgP = bot.send_message(message.chat.id, " ¿ERROR debe ser una fecha válida, " + fecha_t + " DIA = " + Cadenap[0:2] + " MES = " + Cadenap[3:5] + " ANO = " + Cadenap[6:10] + " HORA = " + Cadenap[11:13] + ": \n¿Cual es la fecha (dia-mes-año 31-12-2022), un espacio y luego la hora para enviar ahora las publicaciones que cumplan con esa configuración.", reply_markup=markup)
+        msgP = bot.send_message(message.chat.id, " ¿ERROR debe ser una fecha válida, *" + fecha_t + "* DIA = *" + Cadenap[0:2] + "* MES = *" + Cadenap[3:5] + "* ANO = *" + Cadenap[6:10] + "* HORA = *" + Cadenap[11:13] + "*: \n¿Cual es la fecha (dia-mes-año 31-12-2022), un espacio y luego la hora para enviar ahora las publicaciones que cumplan con esa configuración.", reply_markup=markup)
         bot.register_next_step_handler(msgP, Send_lo_de_esta_fecha_horaF0)  
 
 
@@ -928,6 +919,7 @@ def preguntar_persona_Grupo_Canal_eliminar(message):
             f4.close
             s = str(LineasDeF4)
             clave1 = message.text
+            #print("   clave:" + clave1 + ":")
             #s = "Naze
             new_s = s.replace(clave1+ '\n', '')
             with open(path1 + "PersonaGrupoCanal.txt", 'w', encoding="utf8") as f:
@@ -1028,20 +1020,44 @@ def mostrarcanal(message):
 
 
 def preguntar_persona_Grupo_Canal_agregar(message):
-    persona_grupo_canal = message.text
-    if persona_grupo_canal[0:0] == "-":
-        canal = -1 * int(persona_grupo_canal)
-        Agregarlo = canal
-    else:
-        persona_grupo = int(persona_grupo_canal)
-        Agregarlo = persona_grupo
-    with open(path1 + "PersonaGrupoCanal.txt", 'a', encoding="utf8") as f:
-        f.write(str(Agregarlo) + '\n')
-    f.close
-    with open(path1 + "PersonaGrupoCanal.txt", 'r', encoding="utf8") as f:
-        canales = f.read()
-    f.close
-    bot.send_message(mi_chat_id, "Se agregó a la lista de Personas Grupos o Canales: " + str(canales))
+    markup = telebot.types.ForceReply()
+    msgP = bot.send_message(mi_chat_id, "Envie el número de persona, Grupo o Canal, y la sigla de la provinca Ejemplo: -52584hol (hol, pri, art, hab, may, mat, cif, isl, vic, ssp, cav, cam, ltu, grm, gut, scu, tod, cub) para agregarlo.", reply_markup=markup )
+    bot.register_next_step_handler(msgP, preguntar_persona_Grupo_Canal_agregar_PROVINCIA)
+
+# def preguntar_persona_Grupo_Canal_agregar_CANAL(message):
+    # Agregarlo = message.text
+    # # persona_grupo_canal = message.text
+    # # if persona_grupo_canal[0:0] == "-":
+        # # canal = -1 * int(persona_grupo_canal)
+        # # Agregarlo = canal
+    # # else:
+        # # persona_grupo = int(persona_grupo_canal)
+        # # Agregarlo = persona_grupo
+    # markup = telebot.types.ForceReply()
+    # msgP = bot.send_message(mi_chat_id, "Envie la sigla (Hol, Pri, Art, Hab, May, Mat, Cif, Isl, Vic, Ssp, Cav, Cam, Ltu, Grm, Gut, Scu, Tod) de la PROVINCIA a que pertenece el Grupo, canal o persona.", reply_markup=markup )
+    # bot.register_next_step_handler(msgP, preguntar_persona_Grupo_Canal_agregar_PROVINCIA)        
+
+        
+def preguntar_persona_Grupo_Canal_agregar_PROVINCIA(message):        
+    Linea_Canal_provincia = message.text
+    largo_Linea_Canal_provincia = len(Linea_Canal_provincia)
+    provinc = Linea_Canal_provincia[largo_Linea_Canal_provincia-4:largo_Linea_Canal_provincia]
+    Id_Canal = Linea_Canal_provincia[0:largo_Linea_Canal_provincia-4]
+ 
+    okkk = "no"
+    if provinc in ["hol", "pri", "art", "hab", "may", "mat", "cif", "isl", "vic", "ssp", "cav", "cam", "ltu", "grm", "gut", "scu", "tod", "cub"]:
+        okkk = "si"
+    if okkk == "no":  
+        markup = telebot.types.ForceReply()
+        msgP = bot.send_message(message.chat.id, "ERROR: Envie el número de persona, Grupo o Canal y la sigla de la provinca Ejemplo: -52584hol (hol, pri, art, hab, may, mat, cif, isl, vic, ssp, cav, cam, ltu, grm, gut, scu, tod, cub) para agregarlo.\nPara cancela Conf. actual envie /cancelconfig ", reply_markup=markup)  
+    else:    
+        with open(path1 + "PersonaGrupoCanal.txt", 'a', encoding="utf8") as f:
+            f.write(str(Id_Canal) + str(provinc) + '\n')
+        f.close
+        with open(path1 + "PersonaGrupoCanal.txt", 'r', encoding="utf8") as f:
+            canales = f.read()
+        f.close
+        bot.send_message(mi_chat_id, "Se agregó a la lista de Personas Grupos o Canales: " + str(canales))
 
 
 
@@ -1054,11 +1070,16 @@ def report():
 def report1(HORA_UNICA):    
     #w = datetime.now()
     #if message.text == "1":
-    now = datetime.now()
-    today = date.today()
+    #now = datetime.now()
+    #today = date.today().
+    now1 = datetime.now()
+    hora_zona = hora_zonaf(messageww)
+    today = now1 - timedelta(hours = hora_zona)
+    print("    report1 hora servidor: " + str(now1))
+    print("   report1 hora calculada: " + str(today))
     #print("  hora unica ok" + HORA_UNICA)
     #print(time.strftime('%d-%m-%Y', datetime.now()))
-    horaC = int(now.hour)
+    horaC = int(today.hour)
     if horaC > 9:
         horaa = str(horaC)
     else:
@@ -1084,10 +1105,14 @@ def report1(HORA_UNICA):
         with open(path1 + "schedule.txt", 'r', encoding="utf8") as fsched:
             with open(path1 + "PersonaGrupoCanal.txt", 'r', encoding="utf8") as fcanal:
                 canal_send = fcanal.readlines()
+                #Lista_canal_provincia_send = eval(canal_send)
                 fcanal.seek(0)
                 ipgc = 0
                 for ipgc in range(len(canal_send)):
-                    Id_Canal_Send = canal_send[ipgc]
+                    Linea_Canal_Send = canal_send[ipgc]
+                    largo_Linea_Canal_Send = len(canal_send[ipgc])
+                    provincia_send = Linea_Canal_Send[largo_Linea_Canal_Send-4:largo_Linea_Canal_Send]
+                    Id_Canal_Send = Linea_Canal_Send[0:largo_Linea_Canal_Send-4]
                     LineasDefsched = fsched.readlines()
                     fsched.seek(0)
                     ik = 0
@@ -1095,23 +1120,25 @@ def report1(HORA_UNICA):
                         if clave1 in LineasDefsched[ik]:
                             Recorerlist_SCHEDULE = LineasDefsched[ik-2]
                             Recorerlist_SCHEDULE_x = eval(Recorerlist_SCHEDULE)
-                            Tomar_Sleep = str(Recorerlist_SCHEDULE_x[3])
+                            Tomar_Provincia = str(Recorerlist_SCHEDULE_x[2])
+                            Tomar_Sleep = str(Recorerlist_SCHEDULE_x[4])
                             Tomar_SleepX = int(Tomar_Sleep)
                             Lista_mensaje = LineasDefsched[ik-1]
                             Recorerlist_mensajes = eval(Lista_mensaje)
                             iimsg = 0
-                            for iimsg in Recorerlist_mensajes:
-                                #print(" " + iimsg)
-                                idCanal = int(Id_Canal_Send)
-                                Idmsg = int(iimsg)
-                                #print("   " + str(int(Id_Canal_Send)) + "  " + str(mi_chat_id) + " " + str(int(iimsg)))
-                                try:
-                                    #msgP = bot.send_message(mi_chat_id, "  Mensajes: " + str(iimsg) + " Canal: " + str(Id_Canal_Send))
-                                    msgP = bot.forward_message(idCanal, mi_chat_id, Idmsg)
-                                    msgP = bot.send_message(mi_chat_id, "Mensage #: " + str(iimsg) + " enviado al canal:" + str(Id_Canal_Send))
-                                    sleep(Tomar_SleepX)
-                                except:
-                                    msgP = bot.send_message(mi_chat_id, "ERROR: Mensage #: " + str(iimsg) + " NO enviado al canal:" + str(Id_Canal_Send))
+                            if Tomar_Provincia == "Tod" or Tomar_Provincia == provincia_send:
+                                for iimsg in Recorerlist_mensajes:
+                                    #print(" " + iimsg)
+                                    idCanal = int(Id_Canal_Send)
+                                    Idmsg = int(iimsg)
+                                    #print("   " + str(int(Id_Canal_Send)) + "  " + str(mi_chat_id) + " " + str(int(iimsg)))
+                                    try:
+                                        #msgP = bot.send_message(mi_chat_id, "  Mensajes: " + str(iimsg) + " Canal: " + str(Id_Canal_Send))
+                                        msgP = bot.forward_message(idCanal, mi_chat_id, Idmsg)
+                                        msgP = bot.send_message(mi_chat_id, "Mensage #: " + str(iimsg) + " enviado al canal:" + str(Id_Canal_Send)  + " Provincia:" + str(provincia_send))
+                                        sleep(Tomar_SleepX)
+                                    except:
+                                        msgP = bot.send_message(mi_chat_id, "ERROR: Mensage #: " + str(iimsg) + " NO enviado al canal:" + str(Id_Canal_Send) + " Provincia:" + str(provincia_send))
                                    
             fcanal.close
         fsched.close
@@ -1122,7 +1149,12 @@ def report1(HORA_UNICA):
                 fcanal.seek(0)
                 ipgc = 0
                 for ipgc in range(len(canal_send)):
-                    Id_Canal_Send = canal_send[ipgc]
+                    #Id_Canal_Send = canal_send[ipgc]
+                    Linea_Canal_Send = canal_send[ipgc]
+                    largo_Linea_Canal_Send = len(canal_send[ipgc])
+                    provincia_send = Linea_Canal_Send[largo_Linea_Canal_Send-4:largo_Linea_Canal_Send]
+                    Id_Canal_Send = Linea_Canal_Send[0:largo_Linea_Canal_Send-4]
+                    
                     LineasDefsched = fsched.readlines()
                     fsched.seek(0)
                     ik = 0
@@ -1132,26 +1164,27 @@ def report1(HORA_UNICA):
                     # Recorerlist_mensajes = eval(Lista_mensaje)
                     Recorerlist_SCHEDULE = LineasDefsched[0]
                     Recorerlist_SCHEDULE_x = eval(Recorerlist_SCHEDULE)
-                    Tomar_Sleep = str(Recorerlist_SCHEDULE_x[3])
+                    Tomar_Provincia = str(Recorerlist_SCHEDULE_x[2])
+                    Tomar_Sleep = str(Recorerlist_SCHEDULE_x[4])
                     Tomar_SleepX = int(Tomar_Sleep)
-                    
-                    
-                    
+                    Tomar_Provincia = str(Recorerlist_SCHEDULE_x[2])
+
                     Lista_mensaje = LineasDefsched[1]
                     Recorerlist_mensajes = eval(Lista_mensaje)
                     iimsg = 0
-                    for iimsg in Recorerlist_mensajes:
-                        #print(" " + iimsg)
-                        idCanal = int(Id_Canal_Send)
-                        Idmsg = int(iimsg)
-                        #print("   " + str(int(Id_Canal_Send)) + "  " + str(mi_chat_id) + " " + str(int(iimsg)))
-                        try:
-                            msgP = bot.send_message(mi_chat_id, "  Mensajes: " + str(iimsg) + " Canal: " + str(Id_Canal_Send))
-                            msgP = bot.forward_message(idCanal, mi_chat_id, Idmsg)
-                            msgP = bot.send_message(mi_chat_id, "Mensage #: " + str(iimsg) + " enviado al canal:" + str(Id_Canal_Send))
-                            sleep(Tomar_SleepX)
-                        except:
-                            msgP = bot.send_message(mi_chat_id, "ERROR: Mensage #: " + str(iimsg) + " NO enviado al canal:" + str(Id_Canal_Send))
+                    if Tomar_Provincia == "Tod" or Tomar_Provincia == provincia_send:
+                        for iimsg in Recorerlist_mensajes:
+                            #print(" " + iimsg)
+                            idCanal = int(Id_Canal_Send)
+                            Idmsg = int(iimsg)
+                            #print("   " + str(int(Id_Canal_Send)) + "  " + str(mi_chat_id) + " " + str(int(iimsg)))
+                            try:
+                                msgP = bot.send_message(mi_chat_id, "  Mensajes: " + str(iimsg) + " Canal: " + str(Id_Canal_Send) + " Provincia:" + str(provincia_send))
+                                msgP = bot.forward_message(idCanal, mi_chat_id, Idmsg)
+                                msgP = bot.send_message(mi_chat_id, "Mensage #: " + str(iimsg) + " enviado al canal:" + str(Id_Canal_Send) + " Provincia:" + str(provincia_send))
+                                sleep(Tomar_SleepX)
+                            except:
+                                msgP = bot.send_message(mi_chat_id, "ERROR: Mensage #: " + str(iimsg) + " NO enviado al canal:" + str(Id_Canal_Send) + " Provincia:" + str(provincia_send))
             fcanal.close
         fsched.close
 def verconfiguraciones(message):
@@ -1190,16 +1223,18 @@ def verconfiguraciones(message):
                 ##print("  lista leida:" + str(Recorerlist_mensajes))
                 configuraciones[mi_chat_id]["nombreCliente"] = Recorerlist_mensajes[0]
                 configuraciones[mi_chat_id]["nombreGestorCliente"] = Recorerlist_mensajes[1]
-                configuraciones[mi_chat_id]["VecesXdia"] = Recorerlist_mensajes[2]
-                configuraciones[mi_chat_id]["TiempoEntreMensajes"] = Recorerlist_mensajes[3]
-                configuraciones[mi_chat_id]["HoraInicio"] = Recorerlist_mensajes[4]
-                configuraciones[mi_chat_id]["FechaInicio"] = Recorerlist_mensajes[5]
-                configuraciones[mi_chat_id]["FechaFin"] = Recorerlist_mensajes[6]
-                configuraciones[mi_chat_id]["Numero"] = Recorerlist_mensajes[7]
+                configuraciones[mi_chat_id]["provincia"] = Recorerlist_mensajes[2]
+                configuraciones[mi_chat_id]["VecesXdia"] = Recorerlist_mensajes[3]
+                configuraciones[mi_chat_id]["TiempoEntreMensajes"] = Recorerlist_mensajes[4]
+                configuraciones[mi_chat_id]["HoraInicio"] = Recorerlist_mensajes[5]
+                configuraciones[mi_chat_id]["FechaInicio"] = Recorerlist_mensajes[6]
+                configuraciones[mi_chat_id]["FechaFin"] = Recorerlist_mensajes[7]
+                configuraciones[mi_chat_id]["Numero"] = Recorerlist_mensajes[8]
                 configuraciones[mi_chat_id]["IDMensaje"] = ListaDeMensajesAsociados
                 texto = 'Configuración:\n'
                 texto+= f'<code>NombreCliente:</code> {configuraciones[mi_chat_id]["nombreCliente"]}'
                 texto+= f'<code>NombreGestor.:</code> {configuraciones[mi_chat_id]["nombreGestorCliente"]}'
+                texto+= f'<code>Provincia....:</code> {configuraciones[mi_chat_id]["provincia"]}'
                 texto+= f'<code>Veces x día..:</code> {configuraciones[mi_chat_id]["VecesXdia"]}'
                 texto+= f'<code>Tiempo/Mensje:</code> {configuraciones[mi_chat_id]["TiempoEntreMensajes"]}'
                 texto+= f'<code>Hora Inicio..:</code> {configuraciones[mi_chat_id]["HoraInicio"]}'
@@ -1223,7 +1258,12 @@ def Id_MSG_numero(message):
         msgP = bot.send_message(mi_chat_id, "Mensaje número: " + message.text[6:] + ", NO encontrado!")
 def report_fecha_vence(message):
     msg_mostrarX = bot.send_message(mi_chat_id, "Pediste entrar a /venceconfig.. ")
+    now1 = datetime.now()
+    #today = now1 - timedelta(hours = 4)
+    messagesww = ""
+    hora_zona = hora_zonaf(messagesww)
     current1 = datetime.now()
+    current1 = now1 - timedelta(hours = hora_zona) #hora_zona = hora_zona()
     tomorrow1 = timedelta(4) #######################################
     vence1 = current1 + tomorrow1
     DIA_v = str(vence1.day)
@@ -1269,19 +1309,21 @@ def report_fecha_vence(message):
                 #print("  ik: " + str(ik) + "  dato: " + str(Recorerlist_mensajes[ik]))
                 #
                 #print("   creado: " + clave_vencimiento + " guardado: " + str(Recorerlist_mensajes[6]))
-                if clave_vencimiento in str(Recorerlist_mensajes[6]):
+                if clave_vencimiento in str(Recorerlist_mensajes[7]):
                     #print("############   creado: " + clave_vencimiento + " guardado: " + str(Recorerlist_mensajes[6]))
                     configuraciones[mi_chat_id]["nombreCliente"] = Recorerlist_mensajes[0]
                     configuraciones[mi_chat_id]["nombreGestorCliente"] = Recorerlist_mensajes[1]
-                    configuraciones[mi_chat_id]["VecesXdia"] = Recorerlist_mensajes[2]
-                    configuraciones[mi_chat_id]["TiempoEntreMensajes"] = Recorerlist_mensajes[3]
-                    configuraciones[mi_chat_id]["HoraInicio"] = Recorerlist_mensajes[4]
-                    configuraciones[mi_chat_id]["FechaInicio"] = Recorerlist_mensajes[5]
-                    configuraciones[mi_chat_id]["FechaFin"] = Recorerlist_mensajes[6]
-                    configuraciones[mi_chat_id]["Numero"] = Recorerlist_mensajes[7]
+                    configuraciones[mi_chat_id]["provincia"] = Recorerlist_mensajes[2]
+                    configuraciones[mi_chat_id]["VecesXdia"] = Recorerlist_mensajes[3]
+                    configuraciones[mi_chat_id]["TiempoEntreMensajes"] = Recorerlist_mensajes[4]
+                    configuraciones[mi_chat_id]["HoraInicio"] = Recorerlist_mensajes[5]
+                    configuraciones[mi_chat_id]["FechaInicio"] = Recorerlist_mensajes[6]
+                    configuraciones[mi_chat_id]["FechaFin"] = Recorerlist_mensajes[7]
+                    configuraciones[mi_chat_id]["Numero"] = Recorerlist_mensajes[8]
                     texto = 'Esta Configuración vence en tres días:\n'
                     texto+= f'<code>NombreCliente:</code> {configuraciones[mi_chat_id]["nombreCliente"]}'
                     texto+= f'<code>NombreGestor.:</code> {configuraciones[mi_chat_id]["nombreGestorCliente"]}'
+                    texto+= f'<code>Provincia....:</code> {configuraciones[mi_chat_id]["provincia"]}'
                     texto+= f'<code>Veces x día..:</code> {configuraciones[mi_chat_id]["VecesXdia"]}'
                     texto+= f'<code>Tiempo/Mensje:</code> {configuraciones[mi_chat_id]["TiempoEntreMensajes"]}'
                     texto+= f'<code>Hora Inicio..:</code> {configuraciones[mi_chat_id]["HoraInicio"]}'
@@ -1289,7 +1331,7 @@ def report_fecha_vence(message):
                     texto+= f'<code>FechaFin.....:</code> {configuraciones[mi_chat_id]["FechaFin"]}'
                     texto+= f'<code>FechaFin.....:</code> {configuraciones[mi_chat_id]["Numero"]}'
                     msg_mostrarX = bot.send_message(mi_chat_id, texto, parse_mode="HTML")
-                    msg_mostrarX = bot.send_message(mi_chat_id, Recorerlist_mensajes[7])
+                    msg_mostrarX = bot.send_message(mi_chat_id, Recorerlist_mensajes[8])
                 #ik+= 2
     fsched.close
 
@@ -1361,30 +1403,59 @@ def cmd_alta(message):
 	##msgX_id1 = msgR.message_id
 def preguntar_Gestor_Cliente(message):
     #entro en el mensaje el nombre del cliente
-	configuraciones[message.chat.id] = {  }
-	configuraciones[message.chat.id]["nombreCliente"] = ""
-	configuraciones[message.chat.id]["nombreCliente"] = message.text
-	configuraciones[message.chat.id]["nombreGestorCliente"] = ""
-	configuraciones[message.chat.id]["VecesXdia"] = ""
-	configuraciones[message.chat.id]["TiempoEntreMensajes"] = ""
-	configuraciones[message.chat.id]["HoraInicio"] = ""
-	configuraciones[message.chat.id]["FechaInicio"] = ""
-	configuraciones[message.chat.id]["FechaFin"] = ""
+    configuraciones[message.chat.id] = {  }
+    configuraciones[message.chat.id]["nombreCliente"] = ""
+    configuraciones[message.chat.id]["nombreCliente"] = message.text
+    configuraciones[message.chat.id]["nombreGestorCliente"] = ""
+    configuraciones[message.chat.id]["provincia"] = ""
+    configuraciones[message.chat.id]["VecesXdia"] = ""
+    configuraciones[message.chat.id]["TiempoEntreMensajes"] = ""
+    configuraciones[message.chat.id]["HoraInicio"] = ""
+    configuraciones[message.chat.id]["FechaInicio"] = ""
+    configuraciones[message.chat.id]["FechaFin"] = ""
+    mmm = mostrar_datos(message)
+    # preguntar el por nombre del Gestor del este Cliente
+    ##      PEDIR "GESTOR" ESTADO = "CONFIGURACIONES CLIENTE"   ######################################################################
+    markup = telebot.types.ForceReply()
+    msgP = bot.send_message(message.chat.id, "Nombre del Gestor de este Cliente.\nPara cancela Conf. actual envie /cancelconfig ", reply_markup=markup )
+    bot.register_next_step_handler(msgP, preguntar_Provincia)
+def preguntar_Provincia(message):
+    #entro en el mensaje el nombre del cliente
+	# configuraciones[message.chat.id] = {  }
+	# configuraciones[message.chat.id]["nombreCliente"] = ""
+	# configuraciones[message.chat.id]["nombreCliente"] = ""
+	configuraciones[message.chat.id]["nombreGestorCliente"] = message.text
+    # configuraciones[message.chat.id]["provincia"] = ""
+	# configuraciones[message.chat.id]["VecesXdia"] = ""
+	# configuraciones[message.chat.id]["TiempoEntreMensajes"] = ""
+	# configuraciones[message.chat.id]["HoraInicio"] = ""
+	# configuraciones[message.chat.id]["FechaInicio"] = ""
+	# configuraciones[message.chat.id]["FechaFin"] = ""
 	mmm = mostrar_datos(message)
 	# preguntar el por nombre del Gestor del este Cliente
     ##      PEDIR "GESTOR" ESTADO = "CONFIGURACIONES CLIENTE"   ######################################################################
 	markup = telebot.types.ForceReply()
-	msgP = bot.send_message(message.chat.id, "Nombre del Gestor de este Cliente.\nPara cancela Conf. actual envie /cancelconfig ", reply_markup=markup )
-	bot.register_next_step_handler(msgP, preguntar_veces_x_dia)
-    
+	msgP = bot.send_message(message.chat.id, "Siglas de la provincia (hol, pri, art, hab, may, mat, cif, isl, vic, ssp, cav, cam, ltu, grm, gut, scu, tod, cub).\nPara cancela Conf. actual envie /cancelconfig ", reply_markup=markup )
+	bot.register_next_step_handler(msgP, preguntar_veces_x_dia)    
 def preguntar_veces_x_dia(message):
     #entro nombre del Gestor
-    configuraciones[message.chat.id]["nombreGestorCliente"] = message.text
-    ##      PEDIR "VECES_X_DIA" ESTADO = "CONFIGURACIONES GESTOR"   ######################################################################
-    mmm = mostrar_datos(message)
-    markup = telebot.types.ForceReply()
-    msgP = bot.send_message(message.chat.id, "¿Cuantas veces por día desea repetir la publicación?\nPara cancela Conf. actual envie /cancelconfig ", reply_markup=markup)
-    bot.register_next_step_handler(msgP, preguntar_tiempo_entre_cada_mensajes)
+    #o: Holguin, p: Pinar del Rio, a: artemisa, h: Habana, my: Mayabeque, mt: Matanzas, cf: Cien Fuegos, i: Isla de la #Juventud, v: Villa Clara, ss: Santis Spiritus, cv: Ciego de Avila, cm: Camaguey, lt: Las Tunas, grm: Gramna, gu: #Guantanamo, sc: Santiago de Cuba
+    provinc = message.text
+    okkk = "no"
+    if provinc in ["hol", "pri", "art", "hab", "may", "mat", "cif", "isl", "vic", "ssp", "cav", "cam", "ltu", "grm", "gut", "scu", "tod", "cub"]:
+        okkk = "si"
+    if okkk == "no":  
+        markup = telebot.types.ForceReply()
+        msgP = bot.send_message(message.chat.id, "Siglas de la provincia (hol, pri, art, hab, may, mat, cif, isl, vic, ssp, cav, cam, ltu, grm, gut, scu, tod, cub).\nPara cancela Conf. actual envie /cancelconfig ", reply_markup=markup)
+        bot.register_next_step_handler(msgP, preguntar_veces_x_dia)
+    else:
+        configuraciones[message.chat.id]["provincia"] = message.text
+        print("  prov: " + provinc)
+        ##      PEDIR "VECES_X_DIA" ESTADO = "CONFIGURACIONES GESTOR"   ######################################################################
+        mmm = mostrar_datos(message)
+        markup = telebot.types.ForceReply()
+        msgP = bot.send_message(message.chat.id, "¿Cuantas veces por día desea repetir la publicación?\nPara cancela Conf. actual envie /cancelconfig ", reply_markup=markup)
+        bot.register_next_step_handler(msgP, preguntar_tiempo_entre_cada_mensajes)
     
 def preguntar_tiempo_entre_cada_mensajes(message):
     #entro vecesXdias
@@ -1483,6 +1554,7 @@ def Validar_datos_de_publicaciones(message):
         configuraciones[message.chat.id]["FechaFin"] = message.text
         texto = f'{configuraciones[message.chat.id]["nombreCliente"]}\n'
         texto+= f'{configuraciones[message.chat.id]["nombreGestorCliente"]}\n'
+        texto+= f'{configuraciones[message.chat.id]["provincia"]}\n'
         texto+= f'{configuraciones[message.chat.id]["VecesXdia"]}\n'
         texto+= f'{configuraciones[message.chat.id]["TiempoEntreMensajes"]}\n'
         texto+= f'{configuraciones[message.chat.id]["HoraInicio"]}\n'
@@ -1504,6 +1576,7 @@ def mostrar_datos(message):
         texto = 'Datos introducios:\n'
         texto+= f'<code>NombreCliente:</code> {configuraciones[message.chat.id]["nombreCliente"]}\n'
         texto+= f'<code>NombreGestor.:</code> {configuraciones[message.chat.id]["nombreGestorCliente"]}\n'
+        texto+= f'<code>Provincia....:</code> {configuraciones[message.chat.id]["provincia"]}\n'
         texto+= f'<code>Veces x día..:</code> {configuraciones[message.chat.id]["VecesXdia"]}\n'
         texto+= f'<code>Tiempo/Mensje:</code> {configuraciones[message.chat.id]["TiempoEntreMensajes"]}\n'
         texto+= f'<code>Hora Inicio..:</code> {configuraciones[message.chat.id]["HoraInicio"]}\n'
@@ -1542,37 +1615,44 @@ def MostrarUltimaConfiguracionDesde_txt(mensaje):
     except: 
         Cerrores+= 1 #"Orge G"
     try: 
-        configuraciones[mensaje.chat.id]["VecesXdia"] = textom[2]
-        #print(textom[2])
+        configuraciones[mensaje.chat.id]["provincia"] = textom[2]
+        #print(textom[1])
         if textom[2]=="":Cerrores+= 1
+        texto+= f'<code>Provincia....:</code> {configuraciones[mensaje.chat.id]["provincia"]}'
+    except: 
+        Cerrores+= 1 #"Orge G"
+    try: 
+        configuraciones[mensaje.chat.id]["VecesXdia"] = textom[3]
+        #print(textom[2])
+        if textom[3]=="":Cerrores+= 1
         texto+= f'<code>Veces x día..:</code> {configuraciones[mensaje.chat.id]["VecesXdia"]}'
     except: 
         Cerrores+= 1#"6"
     try: 
-        configuraciones[mensaje.chat.id]["TiempoEntreMensajes"] = textom[3] 
+        configuraciones[mensaje.chat.id]["TiempoEntreMensajes"] = textom[4] 
         #print(textom[3])
-        if textom[3]=="":Cerrores+= 1
+        if textom[4]=="":Cerrores+= 1
         texto+= f'<code>Tiempo/Mensje:</code> {configuraciones[mensaje.chat.id]["TiempoEntreMensajes"]}'
     except: 
         Cerrores+= 1 #"6"
     try: 
-        configuraciones[mensaje.chat.id]["HoraInicio"] = textom[4]
+        configuraciones[mensaje.chat.id]["HoraInicio"] = textom[5]
         #print(textom[4])
-        if textom[4]=="":Cerrores+= 1
+        if textom[5]=="":Cerrores+= 1
         texto+= f'<code>Hora Inicio..:</code> {configuraciones[mensaje.chat.id]["HoraInicio"]}'
     except: 
         Cerrores+= 1 #"7"
     try: 
-        configuraciones[mensaje.chat.id]["FechaInicio"] = textom[5]
+        configuraciones[mensaje.chat.id]["FechaInicio"] = textom[6]
         #print(textom[5])
-        if textom[5]=="":Cerrores+= 1
+        if textom[6]=="":Cerrores+= 1
         texto+= f'<code>FechaInicio..:</code> {configuraciones[mensaje.chat.id]["FechaInicio"]}'
     except: 
         Cerrores+= 1 #"06-06-2022"
     try: 
-        configuraciones[mensaje.chat.id]["FechaFin"] = textom[6]
+        configuraciones[mensaje.chat.id]["FechaFin"] = textom[7]
         #print(textom[6])
-        if textom[6]=="":Cerrores+= 1
+        if textom[7]=="":Cerrores+= 1
         texto+= f'<code>FechaFin.....:</code> {configuraciones[mensaje.chat.id]["FechaFin"]}'
     except: 
         Cerrores+= 1 #"07-06-2022"
@@ -1602,7 +1682,8 @@ def crear_y_guardar_schedule_temp(message):
     i = 0
     listasR0 = ""
     nombreCliente = ""
-    nombreGestorCliente = ""		
+    nombreGestorCliente = ""
+    provincia = ""    
     VecesXdia = 0
     TiempoEntreMensajes = 0
     HoraInicio = ""
@@ -1614,20 +1695,23 @@ def crear_y_guardar_schedule_temp(message):
         # if i == 1:
     nombreGestorCliente = lines[1] #str(i)
         # if i == 2:
-    VecesXdia = int(lines[2]) #str(i)   
+    provincia = lines[2] #str(i)
+        # if i == 2:
+    VecesXdia = int(lines[3]) #str(i)   
         # if i == 3:
-    TiempoEntreMensajes = int(lines[3]) #str(i)   
+    TiempoEntreMensajes = int(lines[4]) #str(i)   
         # if i == 4:
-    HoraInicio = int(lines[4]) #str(i)
+    HoraInicio = int(lines[5]) #str(i)
         # if i == 5:
-    FechaInicio1 = lines[5] #str(i)
+    FechaInicio1 = lines[6] #str(i)
         # if i == 6:
-    FechaFin1 = lines[6]#str(i)
+    FechaFin1 = lines[7]#str(i)
 
     RecibirPublicaciones = 0
 
     textoV0 = nombreCliente
-    textoV1 = nombreGestorCliente		
+    textoV1 = nombreGestorCliente	
+    textoV12 = provincia	
     textoV2 = VecesXdia
     textoV3 = TiempoEntreMensajes
     textoV4 = HoraInicio
@@ -1638,6 +1722,10 @@ def crear_y_guardar_schedule_temp(message):
         RecibirPublicaciones += 1
     #textoV = f' {configuraciones[message.chat.id]["nombreGestorCliente"]}'
     if textoV1:
+        #nombreGestorCliente = configuraciones[message.chat.id]["nombreGestorCliente"]
+        RecibirPublicaciones += 1
+    #textoV = f' {configuraciones[message.chat.id]["provincia"]}'
+    if textoV12:
         #nombreGestorCliente = configuraciones[message.chat.id]["nombreGestorCliente"]
         RecibirPublicaciones += 1
     #textoV = f' {configuraciones[message.chat.id]["VecesXdia"]}'
@@ -1676,8 +1764,8 @@ def crear_y_guardar_schedule_temp(message):
         RecibirPublicaciones += 1
         Fecha = FechaInicio
         
-        
-    if RecibirPublicaciones == 7:
+    bot.send_message(message.chat.id, "campos 7 en configutraciones.txt " + str(RecibirPublicaciones))
+    if RecibirPublicaciones == 8:
         if int(VecesXdia) > 0:
             Cada_x_Hora = 24/VecesXdia 
             Cada_x_Hora = round(Cada_x_Hora, 0)
@@ -1693,8 +1781,10 @@ def crear_y_guardar_schedule_temp(message):
                         Fecha = FechaInicio
                         Continue = "si"
                     else:
-                        if (Fecha +  timedelta(days=DD)) <= FechaFin:
-                            Fecha = FechaInicio + timedelta(days=DD)
+                        #- timedelta(hours = 4)
+                        hora_zona = hora_zonaf(messagesww)
+                        if (Fecha +  timedelta(days = DD) - timedelta(hours = hora_zona)) <= FechaFin:
+                            Fecha = FechaInicio + timedelta(days=DD) - timedelta(hours = hora_zona)
                             Continue = "si"
                         else:
                             Continue = "no"
@@ -1816,18 +1906,84 @@ def ayuda1(message):
     texto+= "/bajartxt : Para bajar las txt de configuraciones guardadas.\n"
     texto+= "/idmsg mas # Reenvia mensaje existente en nustro chat_id a ti mismo nuevamente.\n"
     texto+= "/publicarboton Para publicar botones.\n"
+    texto+= "/verhorazona Ver horas de diferencia por zona geografica con el servidor.\n"
+    texto+= "/cambiarhorazona Cambiar horas de diferencia por zona geografica con el servidor.\n"
     texto+= "/ayuda : La presente ayuda\n"
     texto+= "/help : La presente ayuda\n"
     texto+= "/publicarboton : enviar botones con enlaces\n"
     mensaje = bot.send_message(mi_chat_id, texto, parse_mode="HTML")    
+
+def hora_zonaf(messageww):
+    with open(path1 + 'hora_zona.txt','r') as f:
+        hora_zona1 = f.readline()
+        try:
+            hora_zona = int(str(hora_zona1))
+        except:
+            hora_zona = 4
+            f.close 
+            return hora_zona
+        return hora_zona
+        f.close   
+def verhora_zona(message):
+    with open(path1 + 'hora_zona.txt','r') as f:
+        hora_zona1 = f.readline()
+        try:
+            hora_zona = int(str(hora_zona1))
+            bot.send_message(message.chat.id, "Hora de la zona: " + str(hora_zona))
+        except:
+            hora_zona = 4
+            f.close 
+            bot.send_message(message.chat.id, "Debe revisar la Hora de la zona, debe ser un número entre 0 y 23: " + str(hora_zona1))
         
+        f.close   
+def cambiar_hora_zona_f0(message):
+    if message.text == "/abortar":
+        ayuda1(message)
+    else:
+        markup = telebot.types.ForceReply()
+        msgP = bot.send_message(message.chat.id, "Envíe su código para cambiar hora de la zona.", reply_markup=markup )
+        bot.register_next_step_handler(msgP, cambiar_hora_zona_f1)
+def cambiar_hora_zona_f1(message):
+    if not message.text == "Tosim": 
+        markup = telebot.types.ForceReply()
+        msgP = bot.send_message(message.chat.id, "ERROR: Debes indicar un código correcto. Inténtelo nuevamente, o /abortar para terminar")
+        bot.register_next_step_handler(msgP, cambiar_hora_zona_f0) #si no es un número preguntar vecesXdias
+    else:
+        #PersonaGrupoCanal.txt
+        markup = telebot.types.ForceReply()
+        msgP = bot.send_message(mi_chat_id, "Envie el número de hora de diferencia Ejemplo: 4 (entre 1 y 23), con el servidor del bot.", reply_markup=markup )
+        bot.register_next_step_handler(msgP, cambiar_hora_zona_f2)          
+
+def cambiar_hora_zona_f2(message):
+    try:
+        numeroX = int(str(message.text))
+        
+        
+        if numeroX > 0:
+            with open(path1 + 'hora_zona.txt','w') as f:
+                f.write(str(numeroX))
+
+                bot.send_message(message.chat.id, "Se cabió correctamente, " + str(numeroX))
+                f.close
+        else:
+            markup = telebot.types.ForceReply()
+            msgP = bot.send_message(message.chat.id, "ERROR: No se cambió!!. Inténtelo nuevamente, o /abortar para terminar")
+            bot.register_next_step_handler(msgP, cambiar_hora_zona_f1) 
+    except:
+        markup = telebot.types.ForceReply()
+        msgP = bot.send_message(message.chat.id, "ERROR: * Debes indicar un número correcto entre 1 y 23. Inténtelo nuevamente, o /abortar para terminar")
+        bot.register_next_step_handler(msgP, cambiar_hora_zona_f1)    
+
+   
 print('   Sub Final')
 def activar_schedule():
     print("     SCHEDULE INICIADO...")
     #schedule.every().day.at(HORA_UNICA).do(report)
     #schedule.every().day.at("21:40").do(report_fecha_vence)
     ##chedule.every().day.at("21:34").do(report)#server +4
-    #schedule.every().day.at("19:18").do(report)#local +4
+    schedule.every().day.at("00:25").do(report)
+    schedule.every().day.at("14:25").do(report)
+    schedule.every().day.at("18:25").do(report)
     schedule.every().day.at("00:00").do(report)
     schedule.every().day.at("01:00").do(report)
     schedule.every().day.at("02:00").do(report)
