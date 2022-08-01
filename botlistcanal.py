@@ -21,6 +21,7 @@ from schedule import every
 import threading
 HORA_UNICA = "00:00"
 SLEEP_VAR = 0
+gty = 7890 # variable para subir.
 msg_id = 999990
 msgR_id = 9999990
 msgX_id1 = 999999
