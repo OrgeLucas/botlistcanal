@@ -21,7 +21,6 @@ from schedule import every
 import threading
 HORA_UNICA = "00:00"
 SLEEP_VAR = 0
-gty = 7890 # variable para subir.
 msg_id = 999990
 msgR_id = 9999990
 msgX_id1 = 999999
@@ -948,7 +947,7 @@ def bajartxtF1(message):
         msgP = bot.send_message(message.chat.id, "ERROR: Debes indicar un código correcto. Inténtelo nuevamente, o /abortar para terminar")
         bot.register_next_step_handler(msgP, bajartxtF0) #si no es un número preguntar vecesXdias
     else:
-        files1 = ['mensaje.txt', 'configuraciones.txt','schedule.txt', 'schedule_temp.txt', 'schedule_schedule.txt', 'PersonaGrupoCanal.txt', 'botlistcanal.py']
+        files1 = ['mensaje.txt', 'configuraciones.txt','schedule.txt', 'schedule_temp.txt', 'schedule_schedule.txt', 'PersonaGrupoCanal.txt', 'botlistcanal.py', 'apromobot.py']
         for file1 in files1:
             try:
                 if open(path1 + file1 , 'rb'):
@@ -1209,7 +1208,8 @@ def verconfiguraciones(message):
                 procede = "si"
             if ik % 3 == 0:
                 procede = "si"
-            if procede == "si":
+            if procede == "si" and ik < (len(LineasDefsched)-1):
+                #print("  ik:" + str(ik + 1) + " LineasDefsched:" + str(len(LineasDefsched)))
                 Lista_mensajeM = LineasDefsched[ik+1] 
                 Recorerlist_mensajesM = eval(Lista_mensajeM)
                 for msgx in range(len(Recorerlist_mensajesM)):
@@ -1441,7 +1441,8 @@ def preguntar_Provincia(message):
 def preguntar_veces_x_dia(message):
     #entro nombre del Gestor
     #o: Holguin, p: Pinar del Rio, a: artemisa, h: Habana, my: Mayabeque, mt: Matanzas, cf: Cien Fuegos, i: Isla de la #Juventud, v: Villa Clara, ss: Santis Spiritus, cv: Ciego de Avila, cm: Camaguey, lt: Las Tunas, grm: Gramna, gu: #Guantanamo, sc: Santiago de Cuba
-    provinc = message.text
+    provincia_a_minuscula = message.text
+    provinc = provincia_a_minuscula.lower() 
     okkk = "no"
     if provinc in ["hol", "pri", "art", "hab", "may", "mat", "cif", "isl", "vic", "ssp", "cav", "cam", "ltu", "grm", "gut", "scu", "tod", "cub"]:
         okkk = "si"
@@ -1450,7 +1451,8 @@ def preguntar_veces_x_dia(message):
         msgP = bot.send_message(message.chat.id, "Siglas de la provincia (hol, pri, art, hab, may, mat, cif, isl, vic, ssp, cav, cam, ltu, grm, gut, scu, tod, cub).\nPara cancela Conf. actual envie /cancelconfig ", reply_markup=markup)
         bot.register_next_step_handler(msgP, preguntar_veces_x_dia)
     else:
-        configuraciones[message.chat.id]["provincia"] = message.text
+        provincia_a_minuscula = message.text
+        configuraciones[message.chat.id]["provincia"] = provincia_a_minuscula.lower() #message.text
         print("  prov: " + provinc)
         ##      PEDIR "VECES_X_DIA" ESTADO = "CONFIGURACIONES GESTOR"   ######################################################################
         mmm = mostrar_datos(message)
@@ -1765,7 +1767,7 @@ def crear_y_guardar_schedule_temp(message):
         RecibirPublicaciones += 1
         Fecha = FechaInicio
         
-    bot.send_message(message.chat.id, "campos 7 en configutraciones.txt " + str(RecibirPublicaciones))
+    #bot.send_message(message.chat.id, "campos 7 en configutraciones.txt " + str(RecibirPublicaciones))
     if RecibirPublicaciones == 8:
         if int(VecesXdia) > 0:
             Cada_x_Hora = 24/VecesXdia 
@@ -1783,6 +1785,7 @@ def crear_y_guardar_schedule_temp(message):
                         Continue = "si"
                     else:
                         #- timedelta(hours = 4)
+                        messagesww = ""
                         hora_zona = hora_zonaf(messagesww)
                         if (Fecha +  timedelta(days = DD) - timedelta(hours = hora_zona)) <= FechaFin:
                             Fecha = FechaInicio + timedelta(days=DD) - timedelta(hours = hora_zona)
@@ -1830,6 +1833,8 @@ def crear_y_guardar_schedule_temp(message):
                 #bot.send_message(message.chat.id, "Envie el comndo /alta para crer configuración y luego /publicar para asociarlo a la configuración.")
                 bot.send_message(message.chat.id, "Se guardó correctamente la configuración con las publicaciones, se desea iniciar una nueva configuración use comando /alta")                    
                 ## main ########################################################################################################################
+                #try:
+                    #pass
             except:
                 bot.send_message(message.chat.id, "No guardó!! Por favor repita desde el inicio con el comando /alta ")
         f.close()
