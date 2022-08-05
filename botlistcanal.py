@@ -15,10 +15,15 @@ from time import sleep
 import io
 from io import open
 import os
+from os import remove, path
 import re
 import schedule
 from schedule import every
 import threading
+import zipfile
+from zipfile import BadZipfile, ZipFile
+import sys
+
 HORA_UNICA = "00:00"
 SLEEP_VAR = 0
 msg_id = 999990
@@ -124,6 +129,7 @@ def cmd_texto1(message):
         resetF0(message)
                            
     if message.text == '/alta':
+        bot.send_message(mi_chat_id, "Ejecutándos en: ."  + path1)
         estado = "alta"
         guardar_estado(estado)
         Correr_def = cmd_alta(message)
@@ -135,14 +141,17 @@ def cmd_texto1(message):
         cambiar_hora_zona_f0(message)               
         
     if message.text == '/start':
+        bot.send_message(mi_chat_id, "Ejecutándos en: ."  + path1)
         estado = "start"
         guardar_estado(estado)
         Correr_def = cmd_start(message)
         
         #ayuda1 = 0
     if message.text == '/help':
+        bot.send_message(mi_chat_id, "Ejecutándos en: ."  + path1)
         ayuda1(message) # = "1"
     if message.text == '/ayuda':
+        bot.send_message(mi_chat_id, "Ejecutándos en: ."  + path1)
         ayuda1(message) # = "1"
 
     if message.text == '/finalizar':
@@ -947,18 +956,48 @@ def bajartxtF1(message):
         msgP = bot.send_message(message.chat.id, "ERROR: Debes indicar un código correcto. Inténtelo nuevamente, o /abortar para terminar")
         bot.register_next_step_handler(msgP, bajartxtF0) #si no es un número preguntar vecesXdias
     else:
+        bot.send_message(mi_chat_id, "Ejecutándos en: ."  + path1)
         files1 = ['mensaje.txt', 'configuraciones.txt','schedule.txt', 'schedule_temp.txt', 'schedule_schedule.txt', 'PersonaGrupoCanal.txt', 'botlistcanal.py', 'apromobot.py']
         for file1 in files1:
+            cdcd = "no"
             try:
                 if open(path1 + file1 , 'rb'):
                     file11 = open(path1 + file1, 'rb')
                     bot.send_document(mi_chat_id, file11)
                     file11.close
+                    ##def compress(filename):
+                    filename = path1 + file1
+                    #print("  filename:" + str(filename))
+                    with ZipFile(filename + ".zip", "w") as f:
+                        arcname = filename.replace("\\", "/") #+ "zip"
+                        #arcname = arcname[arcname.rfind("/") + 1:]
+                        #print("  filename:" + str(filename))
+                        #print("  arcname:" + str(arcname))
+                        f.write(filename, arcname)
+                        #bot.send_document(mi_chat_id, arcname)
+                        #print("  arcname.zip:" + str(arcname + ".zip"))
+                        if open(arcname + ".zip" , 'rb'): #path1 + 
+                            filel2 = open(arcname + ".zip", 'rb') #path1 +
+                            bot.send_document(mi_chat_id, filel2)
+                            filel2.close
+                            cdcd = "si"
                 else:
+                    cdcd = "no"
                     NoAbre = 0
                     bot.send_message(mi_chat_id, "Archivos no abre!."  + file1)
+                if cdcd == "si":
+                    #print("  arcname:" + str(arcname))
+                    #print("  file1 + .zip:" + str(file1 + ".zip"))
+                    #print("  path1:" + str(path1))
+                    
+                    if path.exists(str(arcname + ".zip")):
+                        #print("  path existe:" + str(arcname + ".zip"))
+                        remove(str(arcname + ".zip"))
+                    #else:
+                        #print("  path no existe:" + str(arcname + ".zip"))
             except:
                 bot.send_message(mi_chat_id, "Archivos no descargado."  + file1)
+
         bot.send_message(mi_chat_id, "Archivos descargados, Envie el comndo /start ó /alta para crer configuración nueva.")
         
 def resetF0(message):
