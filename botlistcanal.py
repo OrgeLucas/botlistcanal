@@ -46,7 +46,7 @@ ghtyygt = 10
 TOKEN1 = os.environ['TOKEN']
 mi_chat_id = os.environ['mi_chat_id']
 mi_chad_id_canal =  os.environ['mi_chad_id_canal']
-
+esto_borrarlo = 678
 path1 = os.path.abspath(os.getcwd()) + '/'
 bot = telebot.TeleBot(TOKEN1)
 #este es otro canal
