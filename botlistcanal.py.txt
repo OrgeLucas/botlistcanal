@@ -23,7 +23,7 @@ import threading
 import zipfile
 from zipfile import BadZipfile, ZipFile
 import sys
-var_modif = 1234567
+var_modif = 1234567897yy
 HORA_UNICA = "00:00"
 SLEEP_VAR = 0
 msg_id = 999990
