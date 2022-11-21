@@ -956,8 +956,17 @@ def bajartxtF1(message):
         msgP = bot.send_message(message.chat.id, "ERROR: Debes indicar un código correcto. Inténtelo nuevamente, o /abortar para terminar")
         bot.register_next_step_handler(msgP, bajartxtF0) #si no es un número preguntar vecesXdias
     else:
+        # convertir schedule a cadena de texto sin \n y sin ]\n[ para utilizarlo en javascript
+        fin = open(path1 + "schedule.txt", "rt")
+        fout = open(path1 + "schedule_ok_js.txt", "wt")
+        for line in fin:
+        	fout.write(line.replace('\n', '').replace("\\"," ").replace(" n", ""))
+        fin.close()
+        fout.close()
+        # fin de # convertir schedule a cadena de texto sin \n y sin ]\n[ para utilizarlo en javascript
+        
         bot.send_message(mi_chat_id, "Ejecutándos en: ."  + path1)
-        files1 = ['mensaje.txt', 'configuraciones.txt','schedule.txt', 'schedule_temp.txt', 'schedule_schedule.txt', 'PersonaGrupoCanal.txt', 'botlistcanal.py', 'apromobot.py']
+        files1 = ['mensaje.txt', 'configuraciones.txt','schedule.txt', 'schedule_temp.txt', 'schedule_schedule.txt', 'PersonaGrupoCanal.txt', 'botlistcanal.py', 'apromobot.py','schedule_ok_js.txt']
         for file1 in files1:
             cdcd = "no"
             try:
