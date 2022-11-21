@@ -964,9 +964,18 @@ def bajartxtF1(message):
         fin.close()
         fout.close()
         # fin de # convertir schedule a cadena de texto sin \n y sin ]\n[ para utilizarlo en javascript
-        
+        # convertir  a PersonaGrupoCanal.txt cadena de texto sin \n y sin ]\n[ para utilizarlo en javascript
+        fin = open(path1 + "PersonaGrupoCanal.txt", "rt")
+        fout = open(path1 + "PersonaGrupoCanal_ok_js.txt", "wt")
+        for line in fin:
+        	fout.write(line.replace('\n', '').replace("\\"," ").replace(" n", ""))
+        fin.close()
+        fout.close()
+        # fin de # convertir PersonaGrupoCanal.txt a cadena de texto sin \n y sin ]\n[ para utilizarlo en javascript
+                        
+                                        
         bot.send_message(mi_chat_id, "Ejecutándos en: ."  + path1)
-        files1 = ['mensaje.txt', 'configuraciones.txt','schedule.txt', 'schedule_temp.txt', 'schedule_schedule.txt', 'PersonaGrupoCanal.txt', 'botlistcanal.py', 'apromobot.py','schedule_ok_js.txt']
+        files1 = ['mensaje.txt', 'configuraciones.txt','schedule.txt', 'schedule_temp.txt', 'schedule_schedule.txt', 'PersonaGrupoCanal.txt', 'botlistcanal.py', 'apromobot.py','schedule_ok_js.txt','PersonaGrupoCanal_ok_js.txt']
         for file1 in files1:
             cdcd = "no"
             try:
