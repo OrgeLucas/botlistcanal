@@ -968,7 +968,7 @@ def bajartxtF1(message):
         fin = open(path1 + "PersonaGrupoCanal.txt", "rt")
         fout = open(path1 + "PersonaGrupoCanal_ok_js.txt", "wt")
         for line in fin:
-        	fout.write(line.replace('\n', '').replace("\\"," ").replace(" n", ""))
+        	fout.write(line.replace('\n', '*').replace("*"," \',\'"))
         fin.close()
         fout.close()
         # fin de # convertir PersonaGrupoCanal.txt a cadena de texto sin \n y sin ]\n[ para utilizarlo en javascript
